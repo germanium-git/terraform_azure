@@ -6,7 +6,7 @@ provider "azurerm" {
 }
 
 
-# Wait until the eth2 of the FortiGateVM is created
+# Wait until the resource group is created
 resource "null_resource" "dep_rg_created" {
   provisioner "local-exec" {
     command = "echo The resource group is created - ${var.dependency_rg_created}"
@@ -15,11 +15,11 @@ resource "null_resource" "dep_rg_created" {
 
 
 resource "azurerm_public_ip" "mypublicip" {
-    depends_on = [null_resource.dep_rg_created]
-    name                         = var.vm_name
-    location                     = "westeurope"
-    resource_group_name          = var.rg_name
-    allocation_method            = "Dynamic"
+    depends_on                 = [null_resource.dep_rg_created]
+    name                       = var.vm_name
+    location                   = "westeurope"
+    resource_group_name        = var.rg_name
+    allocation_method          = "Dynamic"
 
     tags = {
         environment = "Terraform Demo"
@@ -27,11 +27,11 @@ resource "azurerm_public_ip" "mypublicip" {
 }
 
 resource "azurerm_network_interface" "nic" {
-    depends_on = [null_resource.dep_rg_created]
-    name                        = var.vm_name
-    location                    = "westeurope"
-    resource_group_name         = var.rg_name
-    network_security_group_id   = var.nsg_id
+    depends_on                = [null_resource.dep_rg_created]
+    name                      = var.vm_name
+    location                  = "westeurope"
+    resource_group_name       = var.rg_name
+    network_security_group_id = var.nsg_id
 
     ip_configuration {
         name                          = "myNicConfiguration"

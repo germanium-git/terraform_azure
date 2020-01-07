@@ -7,9 +7,11 @@ variable "location" {
   default = "westeurope"
 }
 
-variable "vnet_name" {}
-variable "vnet_address_space" {}
-
 variable "rg_name" {}
+
+variable "source_vnet_name" {}
+variable "destination_vnet_name" {}
+variable "source_vnet_id" {}
+variable "destination_vnet_id" {}
 
 variable "dependency_rg_created" {}

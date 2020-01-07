@@ -1,7 +1,12 @@
 *.code-workspace
-create_vm/terraform.tfvars
+.vscode/*
 01-two_vm_one_vnet/terraform.tfvars
 01-two_vm_one_vnet/terraform.tfstate
 01-two_vm_one_vnet/terraform.tfstate.backup
 01-two_vm_one_vnet/.terraform
-.vscode/*
+
+*/terraform.tfvars
+*/terraform.tfstate
+*/terraform.tfstate.backup
+*/.terraform
+

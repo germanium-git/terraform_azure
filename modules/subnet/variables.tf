@@ -11,3 +11,4 @@ variable "rg_name" {}
 variable "subnet_name" {}
 variable "subnet_cidr" {}
 variable "vnet_name" {}
+variable "dependency_rg_created" {}
