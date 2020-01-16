@@ -1,0 +1,29 @@
+config system sdn-connector
+edit "azure"
+set type azure
+set ha-status enable
+set tenant-id "xxxxxxxxxxxxxxxxx"
+set subscription-id "xxxxxxxxxxxxxxxxx"
+set client-id "xxxxxxxxxxxxxxxxx"
+set client-secret "xxxxxxxxxxxxxxxxx"
+set resource-group "rg-zsto-networking-nemedpet"
+config nic
+edit "tfgtaport1"
+config ip
+edit "nic-a-public-cfg"
+set public-ip "tClusterPublicIP"
+next
+end
+next
+end
+config route-table
+edit "default-udr"
+config route
+edit "defaultroute"
+set next-hop "10.0.1.70"
+next
+end
+next
+end
+next
+end

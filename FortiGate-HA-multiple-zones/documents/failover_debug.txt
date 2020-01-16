@@ -1,0 +1,67 @@
+fgta # di de en
+
+fgta # di de application azd -1
+Debug messages will be on for 30 minutes.
+
+fgta #
+fgta # azd running in slave mode, won't update
+HA event
+Become HA master mode 2
+azd sdn connector azure getting token
+token size:1156
+token expire on:1579127841
+resourcegroup:rg-zsto-networking-nemedpet, sub:xxxxxxxxxxxxxxxxxxxxxxxxx
+get pubip tClusterPublicIP in resource group rg-zsto-networking-nemedpet
+found pub ip tClusterPublicIP in resource group rg-zsto-networking-nemedpet
+id (null)
+remove is done 0
+add public ip in nic tfgtaport1
+result:0
+add public ip tClusterPublicIP in ipconfig nic-a-public-cfg
+updating nic:tfgtaport1
+result:0
+waiting for operation:https://management.azure.com/subscriptions/xxxxxxxxxxxxxxxxxxxxxxxxx/providers/Microsoft.Network/locations/westeurope/operations/4039a19e-7c12-4677-b4c8-0d118573d418?api-version=2018-06-01
+result:200
+{
+  "status": "Succeeded"
+}
+status:Succeeded
+end wait:0
+get route table default-udr in resource group rg-zsto-networking-nemedpet
+result:0
+matching route:defaultroute:defaultroute
+set route defaultroute nexthop 10.0.1.70
+matching route:defaultroute:mng_access
+updating route table default-udr in resource group rg-zsto-networking-nemedpet
+result:0
+waiting for operation:https://management.azure.com/subscriptions/xxxxxxxxxxxxxxxxxxxxxxxxx/providers/Microsoft.Network/locations/westeurope/operations/558c4c90-c817-4c0f-a561-a6cd34a440cc?api-version=2018-06-01
+result:200
+{
+  "status": "InProgress"
+}
+status:InProgress
+waiting for operation:https://management.azure.com/subscriptions/xxxxxxxxxxxxxxxxxxxxxxxxx/providers/Microsoft.Network/locations/westeurope/operations/558c4c90-c817-4c0f-a561-a6cd34a440cc?api-version=2018-06-01
+result:200
+{
+  "status": "Succeeded"
+}
+status:Succeeded
+end wait:0
+nexthop and add is done
+azd sdn connector azure prepare to update
+azd sdn connector azure getting token
+token size:1156
+token expire on:1579127868
+azd sdn connector azure start updater process 295
+azd sdn connector azure start updating
+azd sdn connector azure start updating IP addresses
+azd sdn connector azure finish updating IP addresses
+azd reap child pid: 295
+HA event
+azd sdn connector azure prepare to update
+azd sdn connector azure start updating
+azd sdn connector azure start updater process 307
+azd sdn connector azure start updating IP addresses
+azd sdn connector azure finish updating IP addresses
+azd reap child pid: 307
+

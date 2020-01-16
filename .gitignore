@@ -10,3 +10,5 @@
 */terraform.tfstate.backup
 */.terraform
 
+/FortiGate-HA-multiple-zones/configs/azureinit-a.conf
+/FortiGate-HA-multiple-zones/configs/azureinit-b.conf
