@@ -1,0 +1,136 @@
+
+!!! Monitoring is not active !!!!
+!!! Note: Please REPLACE the destination-ip below by the IP address of an active/running Azure resource that you want to query against (send ICMP pings to)for the VPN Monitor functionality (Phase 2 livelihood) of your SRX  
+!!! this part of config is missing set security ipsec vpn azure vpn-monitor optimized source-interface st0.0 destination-ip 10.0.0.0
+
+
+
+czpene1@SRX210> show security ike security-associations
+Index   State  Initiator cookie  Responder cookie  Mode           Remote Address
+295611  UP     0af463ef0a3706fb  d2b867775b649857  IKEv2          40.114.204.60
+
+
+czpene1@SRX210> show security ipsec security-associations
+  Total active tunnels: 1
+  ID    Algorithm       SPI      Life:sec/kb  Mon lsys Port  Gateway
+  <131073 ESP:aes-cbc-256/sha256 bd0e0437 2420/ unlim - root 4500 40.114.204.60
+  >131073 ESP:aes-cbc-256/sha256 1f153196 2420/ unlim - root 4500 40.114.204.60
+
+
+
+Quick setup ---------------------------------------------------------------------------------------------------
+
+
+set security ike proposal azure authentication-method pre-shared-keys
+set security ike proposal azure dh-group group2
+set security ike proposal azure authentication-algorithm sha1
+set security ike proposal azure encryption-algorithm aes-256-cbc
+set security ike proposal azure lifetime-seconds 28800
+set security ike policy azure mode main
+set security ike policy azure proposals azure
+set security ike policy azure pre-shared-key ascii-text "$9$U6D.Pn6AIRStuNds2JZ369AtuEcyWX7ylYoaGiHSylM7V2gJDi.Uj5Fn9B1xNdbYoaZDjkmNdYgoaUD69Cpu1W8XVs2hSYgaJkq0B1IEy7Nb2oJs2"
+set security ike gateway azure ike-policy azure
+set security ike gateway azure address 40.114.204.60
+set security ike gateway azure dead-peer-detection interval 10
+set security ike gateway azure dead-peer-detection threshold 5
+set security ike gateway azure local-identity inet 158.255.22.70
+set security ike gateway azure external-interface fe-0/0/7.111
+set security ike gateway azure version v2-only
+
+set security ipsec proposal azure protocol esp
+set security ipsec proposal azure authentication-algorithm hmac-sha-256-128
+set security ipsec proposal azure encryption-algorithm aes-256-cbc
+set security ipsec proposal azure lifetime-seconds 3600
+set security ipsec policy azure proposals azure
+set security ipsec vpn azure bind-interface st0.0
+set security ipsec vpn azure ike gateway azure
+set security ipsec vpn azure ike proxy-identity local 0.0.0.0/0
+set security ipsec vpn azure ike proxy-identity remote 0.0.0.0/0
+set security ipsec vpn azure ike proxy-identity service any
+set security ipsec vpn azure ike ipsec-policy azure
+set security ipsec vpn azure establish-tunnels immediately
+
+set interfaces st0 unit 0 family inet
+set routing-options static route 10.0.0.0/16 next-hop st0.0
+set security zones security-zone untrust interfaces st0.0 host-inbound-traffic system-services ike
+
+
+VPN relevant part of configuration ------------------------------------------------------------------------
+
+
+czpene1@SRX210> show configuration security ipsec
+proposal azure {
+    protocol esp;
+    authentication-algorithm hmac-sha-256-128;
+    encryption-algorithm aes-256-cbc;
+    lifetime-seconds 3600;
+}
+policy azure {
+    proposals azure;
+}
+vpn azure {
+    bind-interface st0.0;
+    ike {
+        gateway azure;
+        proxy-identity {
+            local 0.0.0.0/0;
+            remote 0.0.0.0/0;
+            service any;
+        }
+        ipsec-policy azure;
+    }
+    establish-tunnels immediately;
+}
+
+czpene1@SRX210> show configuration security ike
+proposal azure {
+    authentication-method pre-shared-keys;
+    dh-group group2;
+    authentication-algorithm sha1;
+    encryption-algorithm aes-256-cbc;
+    lifetime-seconds 28800;
+}
+policy azure {
+    mode main;
+    proposals azure;
+    pre-shared-key ascii-text "$9$U6D.Pn6AIRStuNds2JZ369AtuEcyWX7ylYoaGiHSylM7V2gJDi.Uj5Fn9B1xNdbYoaZDjkmNdYgoaUD69Cpu1W8XVs2hSYgaJkq0B1IEy7Nb2oJs2"; ## SECRET-DATA
+}
+gateway azure {
+    ike-policy azure;
+    address 40.114.204.60;
+    dead-peer-detection {
+        interval 10;
+        threshold 5;
+    }
+    local-identity inet 158.255.22.70;
+    external-interface fe-0/0/7.111;
+    version v2-only;
+}
+
+czpene1@SRX210> show configuration interfaces st0
+unit 0 {
+    family inet;
+}
+
+czpene1@SRX210> show configuration routing-options static
+route 10.0.0.0/16 next-hop st0.0;
+
+
+czpene1@SRX210> show configuration security zones security-zone untrust
+screen untrust-screen;
+interfaces {
+    st0.0 {
+        host-inbound-traffic {
+            system-services {
+                ike;
+            }
+        }
+    }
+}
+
+
+
+
+
+
+

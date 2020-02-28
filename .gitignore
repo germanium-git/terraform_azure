@@ -12,3 +12,5 @@
 
 /FortiGate-HA-multiple-zones/configs/azureinit-a.conf
 /FortiGate-HA-multiple-zones/configs/azureinit-b.conf
+/FortiGate-HA-multiple-zones/configs/sdn-connector-a_nogit.txt
+/FortiGate-HA-multiple-zones/configs/sdn-connector-b_nogit.txt
