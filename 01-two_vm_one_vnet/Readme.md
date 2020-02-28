@@ -16,11 +16,12 @@ The public key is stored as a variable pubkey defined in the [variables.tf](vari
 ## Tips&Tricks
 If the public IP addresses are not shown in the terraform output in the first go then try terraform refresh to have them displayed in teh CLI.
 Example.
+```shell
 Outputs:
 
 ubuntu_vm-01_public_ip = 51.137.207.184
 ubuntu_vm-02_public_ip = 51.137.207.182
-
+```
 
 Ping from the ubuntu-vm-01 to ubuntu-vm-02
 ```shell
@@ -32,5 +33,4 @@ PING 10.0.2.4 (10.0.2.4) 56(84) bytes of data.
 --- 10.0.2.4 ping statistics ---
 2 packets transmitted, 2 received, 0% packet loss, time 1001ms
 rtt min/avg/max/mdev = 0.721/0.768/0.816/0.055 ms
-
 ```
