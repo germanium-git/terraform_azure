@@ -19,8 +19,8 @@ In thi case the data is stored in the file
         admin_password = var.password
         custom_data    = file("./configs/azureinit-a.conf")
 ```
-Make sure the file exist prior to applying terraform templates. The files in git repository do not contain licenses are their name ends with teh suffix *-git that needs to be removed.
-Update the MIME text files named azureinit-a.conf and azureinit-a.conf that include both FortiGate CLI commands and license file content.
+Make sure the file exist prior to applying terraform templates. The files in git repository do not contain licenses and their name ends with teh suffix *-git that needs to be removed.
+Update the MIME text files named azureinit-a.conf and azureinit-b.conf with valid license keys.
 You can download a sample azureinit.conf from [GitHub](https://raw.githubusercontent.com/fortinetsolutions/Azure-Templates/master/FortiGate/Others/Single-VM-BareMinimum-BYOL/azureinit.conf).
 
 
@@ -31,9 +31,10 @@ Update connector config [sdn-connector-a.txt](configs/sdn-connector-a.txt) and [
 - and update also credentials to let virtual machines communicate with Azure API.
 These two pieces of configuration have to be configured manually through CLI. It might have been put into the configuration applied as a part of bootstrapping process though.
 
-
 ## Access to the Virtual Machine
 The testing virtual machine ubuntu-vm-01 is accessible with public key authentication for user azureuser from a specific IP addresses defined by combination of both the NSG rules and routing entry in the internal UDR defined by terraform variable mng_access_from. Such a setup with exposing the public addresses to the internet is nor recommended though it maybe useful for testing scenarios i.e. for NSG etc. when virtual machines are not connected to on-premise through VPN or Express routes.
-The public key is stored as a variable pubkey defined in the [variables.tf](variables.tf).
+The public key is stored in the file [ide_rsa.pub](https://github.com/germanium-git/terraform_azure/blob/master/key/id_rsa.pub).
 
-
+## Issues
+- It happens sometimes that FortiGate appliances can't get the license validated and hang up in validation stage. It helps when one of the nodes is rebooted.
+- Though the initial config contains the configuration for firewall policy allowing all traffic to Internet it's not installed on the cluster.
