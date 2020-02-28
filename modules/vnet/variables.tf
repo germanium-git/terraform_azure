@@ -13,3 +13,10 @@ variable "vnet_address_space" {}
 variable "rg_name" {}
 
 variable "dependency_rg_created" {}
+
+variable "nsg_rules" {}
+variable "nsg_name" {}
+
+variable "tag_env" {
+  default = "Terraform Demo"
+}

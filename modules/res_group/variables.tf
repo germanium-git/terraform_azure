@@ -8,3 +8,7 @@ variable "location" {
 }
 
 variable "rg_name" {}
+
+variable "tag_env" {
+  default = "Terraform Demo"
+}

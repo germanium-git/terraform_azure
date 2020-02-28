@@ -12,9 +12,9 @@ resource "null_resource" "dep_rg_created" {
   }
 }
 
-
-resource "azurerm_virtual_network" "myvnet" {
-    depends_on = [null_resource.dep_rg_created]
+# Creation of the vnet depends on the RG
+resource "azurerm_virtual_network" "vnet" {
+    depends_on          = [null_resource.dep_rg_created]
     name                = var.vnet_name
     address_space       = [var.vnet_address_space]
     location            = var.location
@@ -22,49 +22,39 @@ resource "azurerm_virtual_network" "myvnet" {
 }
 
 
-resource "azurerm_network_security_group" "mysg" {
-    depends_on = [null_resource.dep_rg_created]
-    name                = var.vnet_name
+resource "azurerm_network_security_group" "nsg" {
+    depends_on          = [null_resource.dep_rg_created]
+    name                = var.nsg_name
     location            = var.location
     resource_group_name = var.rg_name
 
-    security_rule {
-        name                       = "SSH"
-        priority                   = 1001
-        direction                  = "Inbound"
-        access                     = "Allow"
-        protocol                   = "Tcp"
-        source_port_range          = "*"
-        destination_port_range     = "22"
-        source_address_prefix      = "*"
-        destination_address_prefix = "*"
-    }
-
-    security_rule {
-        name                       = "FromOtherVNets"
-        priority                   = 1010
-        direction                  = "Inbound"
-        access                     = "Allow"
-        protocol                   = "*"
-        source_port_range          = "*"
-        destination_port_range     = "*"
-        source_address_prefix      = "10.0.0.0/8"
-        destination_address_prefix = "*"
-    }
-
-    security_rule {
-        name                       = "ToOtherVNets"
-        priority                   = 1001
-        direction                  = "Outbound"
-        access                     = "Allow"
-        protocol                   = "*"
-        source_port_range          = "*"
-        destination_port_range     = "*"
-        source_address_prefix      = "10.0.0.0/8"
-        destination_address_prefix = "*"
-    }
-
     tags = {
-        environment = "Terraform Demo"
+        environment = var.tag_env
     }
 }
+
+
+resource "azurerm_network_security_rule" "sec_rule" {
+    for_each                    = var.nsg_rules
+    resource_group_name         = var.rg_name
+    network_security_group_name = azurerm_network_security_group.nsg.name
+    name                        = each.key
+    priority                    = each.value[0]
+    direction                   = each.value[1]
+    access                      = each.value[2]
+    protocol                    = each.value[3]
+    source_port_range           = each.value[4]
+    destination_port_range      = each.value[5]
+    source_address_prefix       = each.value[6]
+    destination_address_prefix  = each.value[7]
+}
+
+
+# Wait until the VNET is created
+resource "null_resource" "dep_vnet_created" {
+    depends_on = [azurerm_virtual_network.vnet]
+    provisioner "local-exec" {
+        command = "echo The VNET is created - ${azurerm_virtual_network.vnet.name}"
+    }
+}
+

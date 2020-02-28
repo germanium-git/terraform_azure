@@ -14,7 +14,7 @@ resource "null_resource" "dep_rg_created" {
 }
 
 
-resource "azurerm_public_ip" "mypublicip" {
+resource "azurerm_public_ip" "publicip" {
     depends_on                 = [null_resource.dep_rg_created]
     name                       = var.vm_name
     location                   = "westeurope"
@@ -22,7 +22,7 @@ resource "azurerm_public_ip" "mypublicip" {
     allocation_method          = "Dynamic"
 
     tags = {
-        environment = "Terraform Demo"
+        environment = var.tag_env
     }
 }
 
@@ -37,27 +37,27 @@ resource "azurerm_network_interface" "nic" {
         name                          = "myNicConfiguration"
         subnet_id                     = var.subnet_id
         private_ip_address_allocation = "Dynamic"
-        public_ip_address_id          = azurerm_public_ip.mypublicip.id
+        public_ip_address_id          = azurerm_public_ip.publicip.id
     }
 
     tags = {
-        environment = "Terraform Demo"
+        environment = var.tag_env
     }
 }
 
 resource "azurerm_virtual_machine" "ubuntu-16-04-0-lts" {
-    depends_on = [null_resource.dep_rg_created, azurerm_public_ip.mypublicip]
-    name                  = var.vm_name
-    location              = "westeurope"
-    resource_group_name   = var.rg_name
-    network_interface_ids = [azurerm_network_interface.nic.id]
-    vm_size               = "Standard_DS1_v2"
+    depends_on              = [null_resource.dep_rg_created, azurerm_public_ip.publicip]
+    name                    = var.vm_name
+    location                = var.location
+    resource_group_name     = var.rg_name
+    network_interface_ids   = [azurerm_network_interface.nic.id]
+    vm_size                 = var.vm_size
 
     storage_os_disk {
-        name              = "osdisk-${var.vm_name}"
-        caching           = "ReadWrite"
-        create_option     = "FromImage"
-        managed_disk_type = "Premium_LRS"
+        name                = "osdisk-${var.vm_name}"
+        caching             = "ReadWrite"
+        create_option       = "FromImage"
+        managed_disk_type   = "Premium_LRS"
     }
 
     storage_image_reference {
@@ -69,19 +69,19 @@ resource "azurerm_virtual_machine" "ubuntu-16-04-0-lts" {
 
     os_profile {
         computer_name  = var.vm_name
-        admin_username = "azureuser"
+        admin_username = var.admin_username
     }
 
     os_profile_linux_config {
         disable_password_authentication = true
         ssh_keys {
-            path     = "/home/azureuser/.ssh/authorized_keys"
+            path     = var.keypath
             key_data = var.pubkey
         }
     }
 
     tags = {
-        environment = "Terraform Demo"
+        environment = var.tag_env
     }
 }
 
