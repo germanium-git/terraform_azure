@@ -9,7 +9,7 @@ Login to Azure in azure cli
 
 ![](pictures/az-login.png)
 
-Export the location and the resource group name where the vault and blob storage is to be deployed in environmental variables. Also the subscription ID needs to be exported to the environmental variable to get these resources created.   
+Export the location and the resource group name where the vault and blob storage is to be deployed into environmental variables. Also the subscription ID needs to be exported to the environmental variable to get these resources created.   
 
 ```shell
 # Specify subscription
@@ -26,9 +26,9 @@ export spName="yyyyyyyy-yyyy-yyyy-yyyy-yyyyyyyyyyyy"
 - execute the azure-terraform-init-step2.sh
 
 Terraform gets initiated with the backend configuration using the blob storage for tfstate file. 
-![](pictures/terraform-init.png) 
-
-All secrets are stored in the vault. 
+![](pictures/terraform-init.png)
+<br>
+All secrets are stored in the vault.<br>
 ![](pictures/vault_secrets.png)
-
+<br>
 Continue with defining Azure resources from your project in *.tf file to be deployed in the cloud infra.
