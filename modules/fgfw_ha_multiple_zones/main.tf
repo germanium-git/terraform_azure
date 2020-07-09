@@ -337,6 +337,7 @@ resource "azurerm_virtual_machine" "master" {
       azurerm_network_interface.nic-a-mgmt.id]
     primary_network_interface_id = azurerm_network_interface.nic-a-public.id
     vm_size              = "Standard_DS3_v2"
+    delete_os_disk_on_termination = true
     zones                = [1]
 
     plan {
@@ -344,6 +345,7 @@ resource "azurerm_virtual_machine" "master" {
       product = "fortinet_fortigate-vm_v5"
       publisher = "fortinet"
     }
+
 
     storage_os_disk {
         name              = "master"
@@ -394,6 +396,7 @@ resource "azurerm_virtual_machine" "slave" {
       azurerm_network_interface.nic-b-mgmt.id]
     primary_network_interface_id = azurerm_network_interface.nic-b-public.id
     vm_size              = "Standard_DS3_v2"
+    delete_os_disk_on_termination = true
     zones                = [2]
 
     plan {
