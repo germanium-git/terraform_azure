@@ -52,6 +52,7 @@ resource "azurerm_virtual_machine" "ubuntu-16-04-0-lts" {
     resource_group_name     = var.rg_name
     network_interface_ids   = [azurerm_network_interface.nic.id]
     vm_size                 = var.vm_size
+    delete_os_disk_on_termination = true
 
     storage_os_disk {
         name                = "osdisk-${var.vm_name}"
