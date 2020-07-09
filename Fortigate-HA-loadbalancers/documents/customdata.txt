@@ -1,0 +1,336 @@
+The configuration is encoded in customDataFGx statements in the template azuredeploy.json
+
+    "customDataFG1": "[base64(concat('config router static\nedit 1\nset gateway ', variables('sn1GatewayIP'), ... '\n end'))]",
+    "customDataFG2": "[base64(concat('config router static\nedit 1\nset gateway ', variables('sn1GatewayIP'), ... '\n end'))]"
+
+
+Re-written with newlines they look as follows:
+
+----------------- FG-A ------------------------------------------------------------------------
+
+edit 1
+set gateway ', variables('sn1GatewayIP'), '
+set device port1
+next
+edit 2
+set dst ', parameters('vnetAddressPrefix'), '
+set gateway ', variables('sn2GatewayIP'), '
+set device port2
+next
+edit 3
+set dst 168.63.129.16 255.255.255.255
+set device port2
+set gateway ', variables ('sn2GatewayIP'), '
+next
+edit 4
+set dst 168.63.129.16 255.255.255.255
+set device port1
+set gateway ', variables ('sn1GatewayIP'), '
+next
+edit 5
+set dst ', parameters('vnetAddressPrefixSpoke1'), '
+set gateway ', variables('sn2GatewayIP'), '
+set device port2
+set comment Spoke1-Subnet
+next
+edit 6
+set dst ', parameters('vnetAddressPrefixSpoke2'), '
+set gateway ', variables('sn2GatewayIP'), '
+set device port2
+set comment Spoke2-Subnet
+next
+end
+config system probe-response
+set http-probe-value OK
+set mode http-probe
+end
+config system interface
+edit port1
+set mode static
+set ip ',  variables('sn1IPfg1'), '/', variables('sn1CIDRmask'), '
+set description external
+set allowaccess probe-response
+next
+edit port2
+set mode static
+set ip ', variables('sn2IPfg1'), '/', variables('sn2CIDRmask'), '
+set description internal
+set allowaccess probe-response
+next
+edit port3
+set mode static
+set ip ', variables('sn3IPfg1'), '/', variables('sn3CIDRmask'), '
+set description hasyncport
+next
+edit port4
+set mode static
+set ip ', variables('sn4IPfg1'), '/', variables('sn4CIDRmask'), '
+set description management
+set allowaccess ping https ssh ftm
+next
+end
+config firewall address
+edit Spoke1-subnet
+set associated-interface port2
+set subnet ', parameters('subnet1Spoke1Prefix'), '
+next
+edit Spoke2-subnet
+set associated-interface port2
+set subnet ', parameters('subnet1Spoke2Prefix'), '
+next
+edit ProtectedASubnet
+set associated-interface port2
+set subnet ', parameters('subnet5Prefix'), '
+next
+edit ProtectedBSubnet
+set associated-interface port2
+set subnet ', parameters('subnet6Prefix'), '
+next
+end
+config firewall policy
+edit 1
+set name Spoke1subnet-to-Spoke2subnet
+set srcintf port2
+set dstintf port2
+set srcaddr Spoke1-subnet
+set dstaddr Spoke2-subnet
+set action accept
+set schedule always
+set service ALL
+set fsso disable
+next
+edit 2
+set name Spoke2subnet-to-Spoke1subnet
+set srcintf port2
+set dstintf port2
+set srcaddr Spoke2-subnet
+set dstaddr Spoke1-subnet
+set action accept
+set schedule always
+set service ALL
+set fsso disable
+next
+edit 3
+set name SpokesSubnets-to-ProtectedSubnets
+set srcintf port2
+set dstintf port2
+set srcaddr Spoke1-subnet Spoke2-subnet
+set dstaddr ProtectedASubnet ProtectedBSubnet
+set action accept
+set schedule always
+set service ALL
+set fsso disable
+next
+edit 4
+set name ProtectedSubnets-to-SpokeSubnets
+set srcintf port2
+set dstintf port2
+set srcaddr ProtectedASubnet ProtectedBSubnet
+set dstaddr Spoke1-subnet Spoke2-subnet
+set action accept
+set schedule always
+set service ALL
+set fsso disable
+next
+edit 5
+set name Protected&SpokeSubnets-to-Internet
+set srcintf port2
+set dstintf port1
+set srcaddr ProtectedASubnet ProtectedBSubnet Spoke1-subnet Spoke2-subnet
+set dstaddr all
+set action accept
+set schedule always
+set service ALL
+set utm-status enable
+set fsso disable
+set av-profile default
+set webfilter-profile default
+set dnsfilter-profile default
+set ips-sensor default
+set application-list default
+set ssl-ssh-profile certificate-inspection
+set nat enable
+next
+end
+config system ha
+set group-name AzureHA
+set mode a-p
+set hbdev port3 100
+set session-pickup enable
+set session-pickup-connectionless enable
+set ha-mgmt-status enable
+config ha-mgmt-interfaces
+edit 1
+set interface port4
+set gateway ', variables('sn4GatewayIP'),'
+next
+end
+set override disable
+set priority 255
+set unicast-hb enable
+set unicast-hb-peerip ', variables('sn3IPfg2'), '
+
+
+----------------- FG-B ------------------------------------------------------------------------
+
+edit 1
+set gateway ', variables('sn1GatewayIP'), '
+set device port1
+next
+edit 2
+set dst ', parameters('vnetAddressPrefix'), '
+set gateway ', variables('sn2GatewayIP'), '
+set device port2
+next
+edit 3
+set dst 168.63.129.16 255.255.255.255
+set device port2
+set gateway ', variables ('sn2GatewayIP'), '
+next
+edit 4
+set dst 168.63.129.16 255.255.255.255
+set device port1
+set gateway ', variables ('sn1GatewayIP'), '
+next
+edit 5
+set dst ', parameters('vnetAddressPrefixSpoke1'), '
+set gateway ', variables('sn2GatewayIP'), '
+set device port2
+set comment Spoke1-Subnet
+next
+edit 6
+set dst ', parameters('vnetAddressPrefixSpoke2'), '
+set gateway ', variables('sn2GatewayIP'), '
+set device port2
+set comment Spoke2-Subnet
+next
+end
+config system probe-response
+set http-probe-value OK
+set mode http-probe
+end
+config system interface
+edit port1
+set mode static
+set ip ',  variables('sn1IPfg2'), '/', variables('sn1CIDRmask'), '
+set description external
+set allowaccess probe-response
+next
+edit port2
+set mode static
+set ip ', variables('sn2IPfg2'), '/', variables('sn2CIDRmask'), '
+set description internal
+set allowaccess probe-response
+next
+edit port3
+set mode static
+set ip ', variables('sn3IPfg2'), '/', variables('sn3CIDRmask'), '
+set description hasyncport
+next
+edit port4
+set mode static
+set ip ', variables('sn4IPfg2'), '/', variables('sn4CIDRmask'), '
+set description management
+set allowaccess ping https ssh ftm
+next
+end
+config firewall address
+edit Spoke1-subnet
+set associated-interface port2
+set subnet ', parameters('subnet1Spoke1Prefix'), '
+next
+edit Spoke2-subnet
+set associated-interface port2
+set subnet ', parameters('subnet1Spoke2Prefix'), '
+next
+edit ProtectedASubnet
+set associated-interface port2
+set subnet ', parameters('subnet5Prefix'), '
+next
+edit ProtectedBSubnet
+set associated-interface port2
+set subnet ', parameters('subnet6Prefix'), '
+next
+end
+config firewall policy
+edit 1
+set name Spoke1subnet-to-Spoke2subnet
+set srcintf port2
+set dstintf port2
+set srcaddr Spoke1-subnet
+set dstaddr Spoke2-subnet
+set action accept
+set schedule always
+set service ALL
+set fsso disable
+next
+edit 2
+set name Spoke2subnet-to-Spoke1subnet
+set srcintf port2
+set dstintf port2
+set srcaddr Spoke2-subnet
+set dstaddr Spoke1-subnet
+set action accept
+set schedule always
+set service ALL
+set fsso disable
+next
+edit 3
+set name SpokesSubnets-to-ProtectedSubnets
+set srcintf port2
+set dstintf port2
+set srcaddr Spoke1-subnet Spoke2-subnet
+set dstaddr ProtectedASubnet ProtectedBSubnet
+set action accept
+set schedule always
+set service ALL
+set fsso disable
+next
+edit 4
+set name ProtectedSubnets-to-SpokeSubnets
+set srcintf port2
+set dstintf port2
+set srcaddr ProtectedASubnet ProtectedBSubnet
+set dstaddr Spoke1-subnet Spoke2-subnet
+set action accept
+set schedule always
+set service ALL
+set fsso disable
+next
+edit 5
+set name Protected&SpokeSubnets-to-Internet
+set srcintf port2
+set dstintf port1
+set srcaddr ProtectedASubnet ProtectedBSubnet Spoke1-subnet Spoke2-subnet
+set dstaddr all
+set action accept
+set schedule always
+set service ALL
+set utm-status enable
+set fsso disable
+set av-profile default
+set webfilter-profile default
+set dnsfilter-profile default
+set ips-sensor default
+set application-list default
+set ssl-ssh-profile certificate-inspection
+set nat enable
+next
+end
+config system ha
+set group-name AzureHA
+set mode a-p
+set hbdev port3 100
+set session-pickup enable
+set session-pickup-connectionless enable
+set ha-mgmt-status enable
+config ha-mgmt-interfaces
+edit 1
+set interface port4
+set gateway ', variables('sn4GatewayIP'),'
+next
+end
+set override disable
+set priority 255
+set unicast-hb enable
+set unicast-hb-peerip ', variables('sn3IPfg1'), '

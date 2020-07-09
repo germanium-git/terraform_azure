@@ -1,0 +1,1688 @@
+
+
+petr@Azure:~$ cd ~/clouddrive/ && wget -qO- https://github.com/fortinet/azure-templates/archive/master.zip | jar x && cd ~/clouddrive/azure-templates-master/FortiGate/VNET-Peering/ && ./deploy.sh
+
+
+
+petr@Azure:~/clouddrive/azure-templates-master/FortiGate/VNET-Peering$ cat ~/output.txt | more
+
+##############################################################################################################
+#
+# Deployment of a Fortigate VNET peering setup
+#
+##############################################################################################################
+
+
+Enter location (e.g. eastus2):
+--> Deployment in 'westeurope' location ...
+
+Enter prefix:
+--> Using prefix 'fglb' for all resources ...
+
+Enter password:
+--> Using username 'azureuser' ...
+
+
+--> Creating fglb-RG resource group ...
+{
+  "id": "/subscriptions/c52ed50-7f0e-41cd-842c-7d48d87f8f4f/resourceGroups/fglb-RG",
+  "location": "westeurope",
+  "managedBy": null,
+  "name": "fglb-RG",
+  "properties": {
+    "provisioningState": "Succeeded"
+  },
+  "tags": null,
+  "type": "Microsoft.Resources/resourceGroups"
+}
+--> Validation deployment in fglb-RG resource group ...
+{
+  "error": null,
+  "id": "/subscriptions/c52ed50-7f0e-41cd-842c-7d48d87f8f4f/resourceGroups/fglb-RG/providers/Microsoft.Resources/deployments/deployment_dry_run",
+  "name": "deployment_dry_run",
+  "properties": {
+    "correlationId": "3edf12c2-01a9-4181-9498-a00ef69f88d6",
+    "debugSetting": null,
+    "dependencies": [
+      {
+        "dependsOn": [
+          {
+            "id": "/subscriptions/c52ed50-7f0e-41cd-842c-7d48d87f8f4f/resourceGroups/fglb-RG/providers/Microsoft.Network/routeTables/fglb-RT-PROTECTED-A",
+            "resourceGroup": "fglb-RG",
+            "resourceName": "fglb-RT-PROTECTED-A",
+            "resourceType": "Microsoft.Network/routeTables"
+          },
+          {
+            "id": "/subscriptions/c52ed50-7f0e-41cd-842c-7d48d87f8f4f/resourceGroups/fglb-RG/providers/Microsoft.Network/routeTables/fglb-RT-PROTECTED-B",
+            "resourceGroup": "fglb-RG",
+            "resourceName": "fglb-RT-PROTECTED-B",
+            "resourceType": "Microsoft.Network/routeTables"
+          }
+        ],
+        "id": "/subscriptions/c52ed50-7f0e-41cd-842c-7d48d87f8f4f/resourceGroups/fglb-RG/providers/Microsoft.Network/virtualNetworks/fglb-VNET",
+        "resourceGroup": "fglb-RG",
+        "resourceName": "fglb-VNET",
+        "resourceType": "Microsoft.Network/virtualNetworks"
+      },
+      {
+        "dependsOn": [
+          {
+            "id": "/subscriptions/c52ed50-7f0e-41cd-842c-7d48d87f8f4f/resourceGroups/fglb-RG/providers/Microsoft.Network/virtualNetworks/fglb-VNET",
+            "resourceGroup": "fglb-RG",
+            "resourceName": "fglb-VNET",
+            "resourceType": "Microsoft.Network/virtualNetworks"
+          },
+          {
+            "id": "/subscriptions/c52ed50-7f0e-41cd-842c-7d48d87f8f4f/resourceGroups/fglb-RG/providers/Microsoft.Network/virtualNetworks/fglb-VNET-SPOKE1",
+            "resourceGroup": "fglb-RG",
+            "resourceName": "fglb-VNET-SPOKE1",
+            "resourceType": "Microsoft.Network/virtualNetworks"
+          }
+        ],
+        "id": "/subscriptions/c52ed50-7f0e-41cd-842c-7d48d87f8f4f/resourceGroups/fglb-RG/providers/Microsoft.Network/virtualNetworks/fglb-VNET/virtualNetworkPeerings/fglb-VNETTofglb-VNET-SPOKE1",
+        "resourceGroup": "fglb-RG",
+        "resourceName": "fglb-VNET/fglb-VNETTofglb-VNET-SPOKE1",
+        "resourceType": "Microsoft.Network/virtualNetworks/virtualNetworkPeerings"
+      },
+      {
+        "dependsOn": [
+          {
+            "id": "/subscriptions/c52ed50-7f0e-41cd-842c-7d48d87f8f4f/resourceGroups/fglb-RG/providers/Microsoft.Network/virtualNetworks/fglb-VNET",
+            "resourceGroup": "fglb-RG",
+            "resourceName": "fglb-VNET",
+            "resourceType": "Microsoft.Network/virtualNetworks"
+          },
+          {
+            "id": "/subscriptions/c52ed50-7f0e-41cd-842c-7d48d87f8f4f/resourceGroups/fglb-RG/providers/Microsoft.Network/virtualNetworks/fglb-VNET-SPOKE2",
+            "resourceGroup": "fglb-RG",
+            "resourceName": "fglb-VNET-SPOKE2",
+            "resourceType": "Microsoft.Network/virtualNetworks"
+          }
+        ],
+        "id": "/subscriptions/c52ed50-7f0e-41cd-842c-7d48d87f8f4f/resourceGroups/fglb-RG/providers/Microsoft.Network/virtualNetworks/fglb-VNET/virtualNetworkPeerings/fglb-VNETTofglb-VNET-SPOKE2",
+        "resourceGroup": "fglb-RG",
+        "resourceName": "fglb-VNET/fglb-VNETTofglb-VNET-SPOKE2",
+        "resourceType": "Microsoft.Network/virtualNetworks/virtualNetworkPeerings"
+      },
+      {
+        "dependsOn": [
+          {
+            "id": "/subscriptions/c52ed50-7f0e-41cd-842c-7d48d87f8f4f/resourceGroups/fglb-RG/providers/Microsoft.Network/routeTables/fglb-RT-SPOKE-1",
+            "resourceGroup": "fglb-RG",
+            "resourceName": "fglb-RT-SPOKE-1",
+            "resourceType": "Microsoft.Network/routeTables"
+          }
+        ],
+        "id": "/subscriptions/c52ed50-7f0e-41cd-842c-7d48d87f8f4f/resourceGroups/fglb-RG/providers/Microsoft.Network/virtualNetworks/fglb-VNET-SPOKE1",
+        "resourceGroup": "fglb-RG",
+        "resourceName": "fglb-VNET-SPOKE1",
+        "resourceType": "Microsoft.Network/virtualNetworks"
+      },
+      {
+        "dependsOn": [
+          {
+            "id": "/subscriptions/c52ed50-7f0e-41cd-842c-7d48d87f8f4f/resourceGroups/fglb-RG/providers/Microsoft.Network/virtualNetworks/fglb-VNET",
+            "resourceGroup": "fglb-RG",
+            "resourceName": "fglb-VNET",
+            "resourceType": "Microsoft.Network/virtualNetworks"
+          },
+          {
+            "id": "/subscriptions/c52ed50-7f0e-41cd-842c-7d48d87f8f4f/resourceGroups/fglb-RG/providers/Microsoft.Network/virtualNetworks/fglb-VNET-SPOKE1",
+            "resourceGroup": "fglb-RG",
+            "resourceName": "fglb-VNET-SPOKE1",
+            "resourceType": "Microsoft.Network/virtualNetworks"
+          }
+        ],
+        "id": "/subscriptions/c52ed50-7f0e-41cd-842c-7d48d87f8f4f/resourceGroups/fglb-RG/providers/Microsoft.Network/virtualNetworks/fglb-VNET-SPOKE1/virtualNetworkPeerings/fglb-VNET-SPOKE1Tofglb-VNET",
+        "resourceGroup": "fglb-RG",
+        "resourceName": "fglb-VNET-SPOKE1/fglb-VNET-SPOKE1Tofglb-VNET",
+        "resourceType": "Microsoft.Network/virtualNetworks/virtualNetworkPeerings"
+      },
+      {
+        "dependsOn": [
+          {
+            "id": "/subscriptions/c52ed50-7f0e-41cd-842c-7d48d87f8f4f/resourceGroups/fglb-RG/providers/Microsoft.Network/routeTables/fglb-RT-SPOKE-2",
+            "resourceGroup": "fglb-RG",
+            "resourceName": "fglb-RT-SPOKE-2",
+            "resourceType": "Microsoft.Network/routeTables"
+          }
+        ],
+        "id": "/subscriptions/c52ed50-7f0e-41cd-842c-7d48d87f8f4f/resourceGroups/fglb-RG/providers/Microsoft.Network/virtualNetworks/fglb-VNET-SPOKE2",
+        "resourceGroup": "fglb-RG",
+        "resourceName": "fglb-VNET-SPOKE2",
+        "resourceType": "Microsoft.Network/virtualNetworks"
+      },
+      {
+        "dependsOn": [
+          {
+            "id": "/subscriptions/c52ed50-7f0e-41cd-842c-7d48d87f8f4f/resourceGroups/fglb-RG/providers/Microsoft.Network/virtualNetworks/fglb-VNET",
+            "resourceGroup": "fglb-RG",
+            "resourceName": "fglb-VNET",
+            "resourceType": "Microsoft.Network/virtualNetworks"
+          },
+          {
+            "id": "/subscriptions/c52ed50-7f0e-41cd-842c-7d48d87f8f4f/resourceGroups/fglb-RG/providers/Microsoft.Network/virtualNetworks/fglb-VNET-SPOKE2",
+            "resourceGroup": "fglb-RG",
+            "resourceName": "fglb-VNET-SPOKE2",
+            "resourceType": "Microsoft.Network/virtualNetworks"
+          }
+        ],
+        "id": "/subscriptions/c52ed50-7f0e-41cd-842c-7d48d87f8f4f/resourceGroups/fglb-RG/providers/Microsoft.Network/virtualNetworks/fglb-VNET-SPOKE2/virtualNetworkPeerings/fglb-VNET-SPOKE2Tofglb-VNET",
+        "resourceGroup": "fglb-RG",
+        "resourceName": "fglb-VNET-SPOKE2/fglb-VNET-SPOKE2Tofglb-VNET",
+        "resourceType": "Microsoft.Network/virtualNetworks/virtualNetworkPeerings"
+      },
+      {
+        "dependsOn": [
+          {
+            "id": "/subscriptions/c52ed50-7f0e-41cd-842c-7d48d87f8f4f/resourceGroups/fglb-RG/providers/Microsoft.Network/virtualNetworks/fglb-VNET",
+            "resourceGroup": "fglb-RG",
+            "resourceName": "fglb-VNET",
+            "resourceType": "Microsoft.Network/virtualNetworks"
+          }
+        ],
+        "id": "/subscriptions/c52ed50-7f0e-41cd-842c-7d48d87f8f4f/resourceGroups/fglb-RG/providers/Microsoft.Network/loadBalancers/fglb-InternalLoadBalancer",
+        "resourceGroup": "fglb-RG",
+        "resourceName": "fglb-InternalLoadBalancer",
+        "resourceType": "Microsoft.Network/loadBalancers"
+      },
+      {
+        "dependsOn": [
+          {
+            "id": "/subscriptions/c52ed50-7f0e-41cd-842c-7d48d87f8f4f/resourceGroups/fglb-RG/providers/Microsoft.Network/publicIPAddresses/FGTAPClusterPublicIP",
+            "resourceGroup": "fglb-RG",
+            "resourceName": "FGTAPClusterPublicIP",
+            "resourceType": "Microsoft.Network/publicIPAddresses"
+          }
+        ],
+        "id": "/subscriptions/c52ed50-7f0e-41cd-842c-7d48d87f8f4f/resourceGroups/fglb-RG/providers/Microsoft.Network/loadBalancers/fglb-ExternalLoadBalancer",
+        "resourceGroup": "fglb-RG",
+        "resourceName": "fglb-ExternalLoadBalancer",
+        "resourceType": "Microsoft.Network/loadBalancers"
+      },
+      {
+        "dependsOn": [
+          {
+            "id": "/subscriptions/c52ed50-7f0e-41cd-842c-7d48d87f8f4f/resourceGroups/fglb-RG/providers/Microsoft.Network/virtualNetworks/fglb-VNET",
+            "resourceGroup": "fglb-RG",
+            "resourceName": "fglb-VNET",
+            "resourceType": "Microsoft.Network/virtualNetworks"
+          },
+          {
+            "id": "/subscriptions/c52ed50-7f0e-41cd-842c-7d48d87f8f4f/resourceGroups/fglb-RG/providers/Microsoft.Network/loadBalancers/fglb-ExternalLoadBalancer",
+            "resourceGroup": "fglb-RG",
+            "resourceName": "fglb-ExternalLoadBalancer",
+            "resourceType": "Microsoft.Network/loadBalancers"
+          },
+          {
+            "id": "/subscriptions/c52ed50-7f0e-41cd-842c-7d48d87f8f4f/resourceGroups/fglb-RG/providers/Microsoft.Network/networkSecurityGroups/fglb-pomrcyd33f3mw-NSG",
+            "resourceGroup": "fglb-RG",
+            "resourceName": "fglb-pomrcyd33f3mw-NSG",
+            "resourceType": "Microsoft.Network/networkSecurityGroups"
+          }
+        ],
+        "id": "/subscriptions/c52ed50-7f0e-41cd-842c-7d48d87f8f4f/resourceGroups/fglb-RG/providers/Microsoft.Network/networkInterfaces/fglb-FGT-A-Nic1",
+        "resourceGroup": "fglb-RG",
+        "resourceName": "fglb-FGT-A-Nic1",
+        "resourceType": "Microsoft.Network/networkInterfaces"
+      },
+      {
+        "dependsOn": [
+          {
+            "id": "/subscriptions/c52ed50-7f0e-41cd-842c-7d48d87f8f4f/resourceGroups/fglb-RG/providers/Microsoft.Network/virtualNetworks/fglb-VNET",
+            "resourceGroup": "fglb-RG",
+            "resourceName": "fglb-VNET",
+            "resourceType": "Microsoft.Network/virtualNetworks"
+          },
+          {
+            "id": "/subscriptions/c52ed50-7f0e-41cd-842c-7d48d87f8f4f/resourceGroups/fglb-RG/providers/Microsoft.Network/loadBalancers/fglb-ExternalLoadBalancer",
+            "resourceGroup": "fglb-RG",
+            "resourceName": "fglb-ExternalLoadBalancer",
+            "resourceType": "Microsoft.Network/loadBalancers"
+          },
+          {
+            "id": "/subscriptions/c52ed50-7f0e-41cd-842c-7d48d87f8f4f/resourceGroups/fglb-RG/providers/Microsoft.Network/networkSecurityGroups/fglb-pomrcyd33f3mw-NSG",
+            "resourceGroup": "fglb-RG",
+            "resourceName": "fglb-pomrcyd33f3mw-NSG",
+            "resourceType": "Microsoft.Network/networkSecurityGroups"
+          }
+        ],
+        "id": "/subscriptions/c52ed50-7f0e-41cd-842c-7d48d87f8f4f/resourceGroups/fglb-RG/providers/Microsoft.Network/networkInterfaces/fglb-FGT-B-Nic1",
+        "resourceGroup": "fglb-RG",
+        "resourceName": "fglb-FGT-B-Nic1",
+        "resourceType": "Microsoft.Network/networkInterfaces"
+      },
+      {
+        "dependsOn": [
+          {
+            "id": "/subscriptions/c52ed50-7f0e-41cd-842c-7d48d87f8f4f/resourceGroups/fglb-RG/providers/Microsoft.Network/virtualNetworks/fglb-VNET",
+            "resourceGroup": "fglb-RG",
+            "resourceName": "fglb-VNET",
+            "resourceType": "Microsoft.Network/virtualNetworks"
+          },
+          {
+            "id": "/subscriptions/c52ed50-7f0e-41cd-842c-7d48d87f8f4f/resourceGroups/fglb-RG/providers/Microsoft.Network/loadBalancers/fglb-InternalLoadBalancer",
+            "resourceGroup": "fglb-RG",
+            "resourceName": "fglb-InternalLoadBalancer",
+            "resourceType": "Microsoft.Network/loadBalancers"
+          }
+        ],
+        "id": "/subscriptions/c52ed50-7f0e-41cd-842c-7d48d87f8f4f/resourceGroups/fglb-RG/providers/Microsoft.Network/networkInterfaces/fglb-FGT-A-Nic2",
+        "resourceGroup": "fglb-RG",
+        "resourceName": "fglb-FGT-A-Nic2",
+        "resourceType": "Microsoft.Network/networkInterfaces"
+      },
+      {
+        "dependsOn": [
+          {
+            "id": "/subscriptions/c52ed50-7f0e-41cd-842c-7d48d87f8f4f/resourceGroups/fglb-RG/providers/Microsoft.Network/virtualNetworks/fglb-VNET",
+            "resourceGroup": "fglb-RG",
+            "resourceName": "fglb-VNET",
+            "resourceType": "Microsoft.Network/virtualNetworks"
+          },
+          {
+            "id": "/subscriptions/c52ed50-7f0e-41cd-842c-7d48d87f8f4f/resourceGroups/fglb-RG/providers/Microsoft.Network/loadBalancers/fglb-InternalLoadBalancer",
+            "resourceGroup": "fglb-RG",
+            "resourceName": "fglb-InternalLoadBalancer",
+            "resourceType": "Microsoft.Network/loadBalancers"
+          }
+        ],
+        "id": "/subscriptions/c52ed50-7f0e-41cd-842c-7d48d87f8f4f/resourceGroups/fglb-RG/providers/Microsoft.Network/networkInterfaces/fglb-FGT-B-Nic2",
+        "resourceGroup": "fglb-RG",
+        "resourceName": "fglb-FGT-B-Nic2",
+        "resourceType": "Microsoft.Network/networkInterfaces"
+      },
+      {
+        "dependsOn": [
+          {
+            "id": "/subscriptions/c52ed50-7f0e-41cd-842c-7d48d87f8f4f/resourceGroups/fglb-RG/providers/Microsoft.Network/virtualNetworks/fglb-VNET",
+            "resourceGroup": "fglb-RG",
+            "resourceName": "fglb-VNET",
+            "resourceType": "Microsoft.Network/virtualNetworks"
+          }
+        ],
+        "id": "/subscriptions/c52ed50-7f0e-41cd-842c-7d48d87f8f4f/resourceGroups/fglb-RG/providers/Microsoft.Network/networkInterfaces/fglb-FGT-A-Nic3",
+        "resourceGroup": "fglb-RG",
+        "resourceName": "fglb-FGT-A-Nic3",
+        "resourceType": "Microsoft.Network/networkInterfaces"
+      },
+      {
+        "dependsOn": [
+          {
+            "id": "/subscriptions/c52ed50-7f0e-41cd-842c-7d48d87f8f4f/resourceGroups/fglb-RG/providers/Microsoft.Network/virtualNetworks/fglb-VNET",
+            "resourceGroup": "fglb-RG",
+            "resourceName": "fglb-VNET",
+            "resourceType": "Microsoft.Network/virtualNetworks"
+          }
+        ],
+        "id": "/subscriptions/c52ed50-7f0e-41cd-842c-7d48d87f8f4f/resourceGroups/fglb-RG/providers/Microsoft.Network/networkInterfaces/fglb-FGT-B-Nic3",
+        "resourceGroup": "fglb-RG",
+        "resourceName": "fglb-FGT-B-Nic3",
+        "resourceType": "Microsoft.Network/networkInterfaces"
+      },
+      {
+        "dependsOn": [
+          {
+            "id": "/subscriptions/c52ed50-7f0e-41cd-842c-7d48d87f8f4f/resourceGroups/fglb-RG/providers/Microsoft.Network/virtualNetworks/fglb-VNET",
+            "resourceGroup": "fglb-RG",
+            "resourceName": "fglb-VNET",
+            "resourceType": "Microsoft.Network/virtualNetworks"
+          }
+        ],
+        "id": "/subscriptions/c52ed50-7f0e-41cd-842c-7d48d87f8f4f/resourceGroups/fglb-RG/providers/Microsoft.Network/networkInterfaces/fglb-FGT-A-Nic4",
+        "resourceGroup": "fglb-RG",
+        "resourceName": "fglb-FGT-A-Nic4",
+        "resourceType": "Microsoft.Network/networkInterfaces"
+      },
+      {
+        "dependsOn": [
+          {
+            "id": "/subscriptions/c52ed50-7f0e-41cd-842c-7d48d87f8f4f/resourceGroups/fglb-RG/providers/Microsoft.Network/virtualNetworks/fglb-VNET",
+            "resourceGroup": "fglb-RG",
+            "resourceName": "fglb-VNET",
+            "resourceType": "Microsoft.Network/virtualNetworks"
+          }
+        ],
+        "id": "/subscriptions/c52ed50-7f0e-41cd-842c-7d48d87f8f4f/resourceGroups/fglb-RG/providers/Microsoft.Network/networkInterfaces/fglb-FGT-B-Nic4",
+        "resourceGroup": "fglb-RG",
+        "resourceName": "fglb-FGT-B-Nic4",
+        "resourceType": "Microsoft.Network/networkInterfaces"
+      },
+      {
+        "dependsOn": [
+          {
+            "id": "/subscriptions/c52ed50-7f0e-41cd-842c-7d48d87f8f4f/resourceGroups/fglb-RG/providers/Microsoft.Network/networkInterfaces/fglb-FGT-A-Nic1",
+            "resourceGroup": "fglb-RG",
+            "resourceName": "fglb-FGT-A-Nic1",
+            "resourceType": "Microsoft.Network/networkInterfaces"
+          },
+          {
+            "id": "/subscriptions/c52ed50-7f0e-41cd-842c-7d48d87f8f4f/resourceGroups/fglb-RG/providers/Microsoft.Network/networkInterfaces/fglb-FGT-A-Nic2",
+            "resourceGroup": "fglb-RG",
+            "resourceName": "fglb-FGT-A-Nic2",
+            "resourceType": "Microsoft.Network/networkInterfaces"
+          },
+          {
+            "id": "/subscriptions/c52ed50-7f0e-41cd-842c-7d48d87f8f4f/resourceGroups/fglb-RG/providers/Microsoft.Network/networkInterfaces/fglb-FGT-A-Nic3",
+            "resourceGroup": "fglb-RG",
+            "resourceName": "fglb-FGT-A-Nic3",
+            "resourceType": "Microsoft.Network/networkInterfaces"
+          },
+          {
+            "id": "/subscriptions/c52ed50-7f0e-41cd-842c-7d48d87f8f4f/resourceGroups/fglb-RG/providers/Microsoft.Network/networkInterfaces/fglb-FGT-A-Nic4",
+            "resourceGroup": "fglb-RG",
+            "resourceName": "fglb-FGT-A-Nic4",
+            "resourceType": "Microsoft.Network/networkInterfaces"
+          }
+        ],
+        "id": "/subscriptions/c52ed50-7f0e-41cd-842c-7d48d87f8f4f/resourceGroups/fglb-RG/providers/Microsoft.Compute/virtualMachines/fglb-FGT-A",
+        "resourceGroup": "fglb-RG",
+        "resourceName": "fglb-FGT-A",
+        "resourceType": "Microsoft.Compute/virtualMachines"
+      },
+      {
+        "dependsOn": [
+          {
+            "id": "/subscriptions/c52ed50-7f0e-41cd-842c-7d48d87f8f4f/resourceGroups/fglb-RG/providers/Microsoft.Network/networkInterfaces/fglb-FGT-B-Nic1",
+            "resourceGroup": "fglb-RG",
+            "resourceName": "fglb-FGT-B-Nic1",
+            "resourceType": "Microsoft.Network/networkInterfaces"
+          },
+          {
+            "id": "/subscriptions/c52ed50-7f0e-41cd-842c-7d48d87f8f4f/resourceGroups/fglb-RG/providers/Microsoft.Network/networkInterfaces/fglb-FGT-B-Nic2",
+            "resourceGroup": "fglb-RG",
+            "resourceName": "fglb-FGT-B-Nic2",
+            "resourceType": "Microsoft.Network/networkInterfaces"
+          },
+          {
+            "id": "/subscriptions/c52ed50-7f0e-41cd-842c-7d48d87f8f4f/resourceGroups/fglb-RG/providers/Microsoft.Network/networkInterfaces/fglb-FGT-B-Nic3",
+            "resourceGroup": "fglb-RG",
+            "resourceName": "fglb-FGT-B-Nic3",
+            "resourceType": "Microsoft.Network/networkInterfaces"
+          },
+          {
+            "id": "/subscriptions/c52ed50-7f0e-41cd-842c-7d48d87f8f4f/resourceGroups/fglb-RG/providers/Microsoft.Network/networkInterfaces/fglb-FGT-B-Nic4",
+            "resourceGroup": "fglb-RG",
+            "resourceName": "fglb-FGT-B-Nic4",
+            "resourceType": "Microsoft.Network/networkInterfaces"
+          }
+        ],
+        "id": "/subscriptions/c52ed50-7f0e-41cd-842c-7d48d87f8f4f/resourceGroups/fglb-RG/providers/Microsoft.Compute/virtualMachines/fglb-FGT-B",
+        "resourceGroup": "fglb-RG",
+        "resourceName": "fglb-FGT-B",
+        "resourceType": "Microsoft.Compute/virtualMachines"
+      }
+    ],
+    "duration": "PT0S",
+    "mode": "Incremental",
+    "onErrorDeployment": null,
+    "outputs": null,
+    "parameters": {
+      "adminPassword": {
+        "type": "SecureString"
+      },
+      "adminUsername": {
+        "type": "String",
+        "value": "azureuser"
+      },
+      "fortiGateImageSKU": {
+        "type": "String",
+        "value": "fortinet_fg-vm"
+      },
+      "fortiGateImageVersion": {
+        "type": "String",
+        "value": "latest"
+      },
+      "fortiGateNamePrefix": {
+        "type": "String",
+        "value": "fglb"
+      },
+      "fortinetTags": {
+        "type": "Object",
+        "value": {
+          "provider": "6EB3B02F-50E5-4A3E-8CB8-2E129258317D"
+        }
+      },
+      "instanceType": {
+        "type": "String",
+        "value": "Standard_F4s"
+      },
+      "publicIP2Name": {
+        "type": "String",
+        "value": "FGTAMgmtPublicIP"
+      },
+      "publicIP2NewOrExisting": {
+        "type": "String",
+        "value": "new"
+      },
+      "publicIP2ResourceGroup": {
+        "type": "String",
+        "value": ""
+      },
+      "publicIP3Name": {
+        "type": "String",
+        "value": "FGTBMgmtPublicIP"
+      },
+      "publicIP3NewOrExisting": {
+        "type": "String",
+        "value": "new"
+      },
+      "publicIP3ResourceGroup": {
+        "type": "String",
+        "value": ""
+      },
+      "publicIPAddressType": {
+        "type": "String",
+        "value": "Static"
+      },
+      "publicIPName": {
+        "type": "String",
+        "value": "FGTAPClusterPublicIP"
+      },
+      "publicIPNewOrExisting": {
+        "type": "String",
+        "value": "new"
+      },
+      "publicIPResourceGroup": {
+        "type": "String",
+        "value": ""
+      },
+      "subnet1Name": {
+        "type": "String",
+        "value": "ExternalSubnet"
+      },
+      "subnet1Prefix": {
+        "type": "String",
+        "value": "172.16.136.0/26"
+      },
+      "subnet1Spoke1Name": {
+        "type": "String",
+        "value": "SPOKE1Subnet"
+      },
+      "subnet1Spoke1Prefix": {
+        "type": "String",
+        "value": "172.16.140.0/26"
+      },
+      "subnet1Spoke2Name": {
+        "type": "String",
+        "value": "SPOKE2Subnet"
+      },
+      "subnet1Spoke2Prefix": {
+        "type": "String",
+        "value": "172.16.142.0/26"
+      },
+      "subnet2Name": {
+        "type": "String",
+        "value": "InternalSubnet"
+      },
+      "subnet2Prefix": {
+        "type": "String",
+        "value": "172.16.136.64/26"
+      },
+      "subnet3Name": {
+        "type": "String",
+        "value": "HASyncSubnet"
+      },
+      "subnet3Prefix": {
+        "type": "String",
+        "value": "172.16.136.128/26"
+      },
+      "subnet4Name": {
+        "type": "String",
+        "value": "ManagementSubnet"
+      },
+      "subnet4Prefix": {
+        "type": "String",
+        "value": "172.16.136.192/26"
+      },
+      "subnet5Name": {
+        "type": "String",
+        "value": "ProtectedASubnet"
+      },
+      "subnet5Prefix": {
+        "type": "String",
+        "value": "172.16.137.0/24"
+      },
+      "subnet6Name": {
+        "type": "String",
+        "value": "ProtectedBSubnet"
+      },
+      "subnet6Prefix": {
+        "type": "String",
+        "value": "172.16.138.0/24"
+      },
+      "vnetAddressPrefix": {
+        "type": "String",
+        "value": "172.16.136.0/22"
+      },
+      "vnetAddressPrefixSpoke1": {
+        "type": "String",
+        "value": "172.16.140.0/24"
+      },
+      "vnetAddressPrefixSpoke2": {
+        "type": "String",
+        "value": "172.16.142.0/24"
+      },
+      "vnetName": {
+        "type": "String",
+        "value": ""
+      },
+      "vnetNameSpoke1": {
+        "type": "String",
+        "value": ""
+      },
+      "vnetNameSpoke2": {
+        "type": "String",
+        "value": ""
+      },
+      "vnetNewOrExisting": {
+        "type": "String",
+        "value": "new"
+      },
+      "vnetNewOrExistingSpoke1": {
+        "type": "String",
+        "value": "new"
+      },
+      "vnetNewOrExistingSpoke2": {
+        "type": "String",
+        "value": "new"
+      },
+      "vnetResourceGroup": {
+        "type": "String",
+        "value": ""
+      },
+      "vnetResourceGroupSpoke1": {
+        "type": "String",
+        "value": ""
+      },
+      "vnetResourceGroupSpoke2": {
+        "type": "String",
+        "value": ""
+      }
+    },
+    "parametersLink": null,
+    "providers": [
+      {
+        "id": null,
+        "namespace": "Microsoft.Resources",
+        "registrationPolicy": null,
+        "registrationState": null,
+        "resourceTypes": [
+          {
+            "aliases": null,
+            "apiVersions": null,
+            "capabilities": null,
+            "locations": [
+              null
+            ],
+            "properties": null,
+            "resourceType": "deployments"
+          }
+        ]
+      },
+      {
+        "id": null,
+        "namespace": "Microsoft.Compute",
+        "registrationPolicy": null,
+        "registrationState": null,
+        "resourceTypes": [
+          {
+            "aliases": null,
+            "apiVersions": null,
+            "capabilities": null,
+            "locations": [
+              "westeurope"
+            ],
+            "properties": null,
+            "resourceType": "availabilitySets"
+          },
+          {
+            "aliases": null,
+            "apiVersions": null,
+            "capabilities": null,
+            "locations": [
+              "westeurope"
+            ],
+            "properties": null,
+            "resourceType": "virtualMachines"
+          }
+        ]
+      },
+      {
+        "id": null,
+        "namespace": "Microsoft.Network",
+        "registrationPolicy": null,
+        "registrationState": null,
+        "resourceTypes": [
+          {
+            "aliases": null,
+            "apiVersions": null,
+            "capabilities": null,
+            "locations": [
+              "westeurope"
+            ],
+            "properties": null,
+            "resourceType": "routeTables"
+          },
+          {
+            "aliases": null,
+            "apiVersions": null,
+            "capabilities": null,
+            "locations": [
+              "westeurope"
+            ],
+            "properties": null,
+            "resourceType": "virtualNetworks"
+          },
+          {
+            "aliases": null,
+            "apiVersions": null,
+            "capabilities": null,
+            "locations": [
+              "westeurope"
+            ],
+            "properties": null,
+            "resourceType": "virtualNetworks/virtualNetworkPeerings"
+          },
+          {
+            "aliases": null,
+            "apiVersions": null,
+            "capabilities": null,
+            "locations": [
+              "westeurope"
+            ],
+            "properties": null,
+            "resourceType": "loadBalancers"
+          },
+          {
+            "aliases": null,
+            "apiVersions": null,
+            "capabilities": null,
+            "locations": [
+              "westeurope"
+            ],
+            "properties": null,
+            "resourceType": "networkSecurityGroups"
+          },
+          {
+            "aliases": null,
+            "apiVersions": null,
+            "capabilities": null,
+            "locations": [
+              "westeurope"
+            ],
+            "properties": null,
+            "resourceType": "publicIPAddresses"
+          },
+          {
+            "aliases": null,
+            "apiVersions": null,
+            "capabilities": null,
+            "locations": [
+              "westeurope"
+            ],
+            "properties": null,
+            "resourceType": "networkInterfaces"
+          }
+        ]
+      }
+    ],
+    "provisioningState": "Succeeded",
+    "template": null,
+    "templateHash": "10416466476974203348",
+    "templateLink": null,
+    "timestamp": "2020-02-20T13:23:53.472614+00:00",
+    "validatedResources": [
+      {
+        "id": "/subscriptions/c52ed50-7f0e-41cd-842c-7d48d87f8f4f/resourceGroups/fglb-RG/providers/Microsoft.Resources/deployments/pid-2dc4b447-552f-557f-b1cc-2faec6f9f133",
+        "resourceGroup": "fglb-RG"
+      },
+      {
+        "id": "/subscriptions/c52ed50-7f0e-41cd-842c-7d48d87f8f4f/resourceGroups/fglb-RG/providers/Microsoft.Compute/availabilitySets/fglb-AvailabilitySet",
+        "resourceGroup": "fglb-RG"
+      },
+      {
+        "id": "/subscriptions/c52ed50-7f0e-41cd-842c-7d48d87f8f4f/resourceGroups/fglb-RG/providers/Microsoft.Network/routeTables/fglb-RT-PROTECTED-A",
+        "resourceGroup": "fglb-RG"
+      },
+      {
+        "id": "/subscriptions/c52ed50-7f0e-41cd-842c-7d48d87f8f4f/resourceGroups/fglb-RG/providers/Microsoft.Network/routeTables/fglb-RT-PROTECTED-B",
+        "resourceGroup": "fglb-RG"
+      },
+      {
+        "id": "/subscriptions/c52ed50-7f0e-41cd-842c-7d48d87f8f4f/resourceGroups/fglb-RG/providers/Microsoft.Network/routeTables/fglb-RT-SPOKE-1",
+        "resourceGroup": "fglb-RG"
+      },
+      {
+        "id": "/subscriptions/c52ed50-7f0e-41cd-842c-7d48d87f8f4f/resourceGroups/fglb-RG/providers/Microsoft.Network/routeTables/fglb-RT-SPOKE-2",
+        "resourceGroup": "fglb-RG"
+      },
+      {
+        "id": "/subscriptions/c52ed50-7f0e-41cd-842c-7d48d87f8f4f/resourceGroups/fglb-RG/providers/Microsoft.Network/virtualNetworks/fglb-VNET",
+        "resourceGroup": "fglb-RG"
+      },
+      {
+        "id": "/subscriptions/c52ed50-7f0e-41cd-842c-7d48d87f8f4f/resourceGroups/fglb-RG/providers/Microsoft.Network/virtualNetworks/fglb-VNET/virtualNetworkPeerings/fglb-VNETTofglb-VNET-SPOKE1",
+        "resourceGroup": "fglb-RG"
+      },
+      {
+        "id": "/subscriptions/c52ed50-7f0e-41cd-842c-7d48d87f8f4f/resourceGroups/fglb-RG/providers/Microsoft.Network/virtualNetworks/fglb-VNET/virtualNetworkPeerings/fglb-VNETTofglb-VNET-SPOKE2",
+        "resourceGroup": "fglb-RG"
+      },
+      {
+        "id": "/subscriptions/c52ed50-7f0e-41cd-842c-7d48d87f8f4f/resourceGroups/fglb-RG/providers/Microsoft.Network/virtualNetworks/fglb-VNET-SPOKE1",
+        "resourceGroup": "fglb-RG"
+      },
+      {
+        "id": "/subscriptions/c52ed50-7f0e-41cd-842c-7d48d87f8f4f/resourceGroups/fglb-RG/providers/Microsoft.Network/virtualNetworks/fglb-VNET-SPOKE1/virtualNetworkPeerings/fglb-VNET-SPOKE1Tofglb-VNET",
+        "resourceGroup": "fglb-RG"
+      },
+      {
+        "id": "/subscriptions/c52ed50-7f0e-41cd-842c-7d48d87f8f4f/resourceGroups/fglb-RG/providers/Microsoft.Network/virtualNetworks/fglb-VNET-SPOKE2",
+        "resourceGroup": "fglb-RG"
+      },
+      {
+        "id": "/subscriptions/c52ed50-7f0e-41cd-842c-7d48d87f8f4f/resourceGroups/fglb-RG/providers/Microsoft.Network/virtualNetworks/fglb-VNET-SPOKE2/virtualNetworkPeerings/fglb-VNET-SPOKE2Tofglb-VNET",
+        "resourceGroup": "fglb-RG"
+      },
+      {
+        "id": "/subscriptions/c52ed50-7f0e-41cd-842c-7d48d87f8f4f/resourceGroups/fglb-RG/providers/Microsoft.Network/loadBalancers/fglb-InternalLoadBalancer",
+        "resourceGroup": "fglb-RG"
+      },
+      {
+        "id": "/subscriptions/c52ed50-7f0e-41cd-842c-7d48d87f8f4f/resourceGroups/fglb-RG/providers/Microsoft.Network/networkSecurityGroups/fglb-pomrcyd33f3mw-NSG",
+        "resourceGroup": "fglb-RG"
+      },
+      {
+        "id": "/subscriptions/c52ed50-7f0e-41cd-842c-7d48d87f8f4f/resourceGroups/fglb-RG/providers/Microsoft.Network/publicIPAddresses/FGTAPClusterPublicIP",
+        "resourceGroup": "fglb-RG"
+      },
+      {
+        "id": "/subscriptions/c52ed50-7f0e-41cd-842c-7d48d87f8f4f/resourceGroups/fglb-RG/providers/Microsoft.Network/publicIPAddresses/FGTAMgmtPublicIP",
+        "resourceGroup": "fglb-RG"
+      },
+      {
+        "id": "/subscriptions/c52ed50-7f0e-41cd-842c-7d48d87f8f4f/resourceGroups/fglb-RG/providers/Microsoft.Network/publicIPAddresses/FGTBMgmtPublicIP",
+        "resourceGroup": "fglb-RG"
+      },
+      {
+        "id": "/subscriptions/c52ed50-7f0e-41cd-842c-7d48d87f8f4f/resourceGroups/fglb-RG/providers/Microsoft.Network/loadBalancers/fglb-ExternalLoadBalancer",
+        "resourceGroup": "fglb-RG"
+      },
+      {
+        "id": "/subscriptions/c52ed50-7f0e-41cd-842c-7d48d87f8f4f/resourceGroups/fglb-RG/providers/Microsoft.Network/networkInterfaces/fglb-FGT-A-Nic1",
+        "resourceGroup": "fglb-RG"
+      },
+      {
+        "id": "/subscriptions/c52ed50-7f0e-41cd-842c-7d48d87f8f4f/resourceGroups/fglb-RG/providers/Microsoft.Network/networkInterfaces/fglb-FGT-B-Nic1",
+        "resourceGroup": "fglb-RG"
+      },
+      {
+        "id": "/subscriptions/c52ed50-7f0e-41cd-842c-7d48d87f8f4f/resourceGroups/fglb-RG/providers/Microsoft.Network/networkInterfaces/fglb-FGT-A-Nic2",
+        "resourceGroup": "fglb-RG"
+      },
+      {
+        "id": "/subscriptions/c52ed50-7f0e-41cd-842c-7d48d87f8f4f/resourceGroups/fglb-RG/providers/Microsoft.Network/networkInterfaces/fglb-FGT-B-Nic2",
+        "resourceGroup": "fglb-RG"
+      },
+      {
+        "id": "/subscriptions/c52ed50-7f0e-41cd-842c-7d48d87f8f4f/resourceGroups/fglb-RG/providers/Microsoft.Network/networkInterfaces/fglb-FGT-A-Nic3",
+        "resourceGroup": "fglb-RG"
+      },
+      {
+        "id": "/subscriptions/c52ed50-7f0e-41cd-842c-7d48d87f8f4f/resourceGroups/fglb-RG/providers/Microsoft.Network/networkInterfaces/fglb-FGT-B-Nic3",
+        "resourceGroup": "fglb-RG"
+      },
+      {
+        "id": "/subscriptions/c52ed50-7f0e-41cd-842c-7d48d87f8f4f/resourceGroups/fglb-RG/providers/Microsoft.Network/networkInterfaces/fglb-FGT-A-Nic4",
+        "resourceGroup": "fglb-RG"
+      },
+      {
+        "id": "/subscriptions/c52ed50-7f0e-41cd-842c-7d48d87f8f4f/resourceGroups/fglb-RG/providers/Microsoft.Network/networkInterfaces/fglb-FGT-B-Nic4",
+        "resourceGroup": "fglb-RG"
+      },
+      {
+        "id": "/subscriptions/c52ed50-7f0e-41cd-842c-7d48d87f8f4f/resourceGroups/fglb-RG/providers/Microsoft.Compute/virtualMachines/fglb-FGT-A",
+        "resourceGroup": "fglb-RG"
+      },
+      {
+        "id": "/subscriptions/c52ed50-7f0e-41cd-842c-7d48d87f8f4f/resourceGroups/fglb-RG/providers/Microsoft.Compute/virtualMachines/fglb-FGT-B",
+        "resourceGroup": "fglb-RG"
+      }
+    ]
+  },
+  "resourceGroup": "fglb-RG",
+  "type": "Microsoft.Resources/deployments"
+}
+--> Deployment of fglb-RG resources ...
+{
+  "id": "/subscriptions/c52ed50-7f0e-41cd-842c-7d48d87f8f4f/resourceGroups/fglb-RG/providers/Microsoft.Resources/deployments/azuredeploy",
+  "location": null,
+  "name": "azuredeploy",
+  "properties": {
+    "correlationId": "6a7ee92e-2653-44c1-9759-40d6f628f64d",
+    "debugSetting": null,
+    "dependencies": [
+      {
+        "dependsOn": [
+          {
+            "id": "/subscriptions/c52ed50-7f0e-41cd-842c-7d48d87f8f4f/resourceGroups/fglb-RG/providers/Microsoft.Network/routeTables/fglb-RT-PROTECTED-A",
+            "resourceGroup": "fglb-RG",
+            "resourceName": "fglb-RT-PROTECTED-A",
+            "resourceType": "Microsoft.Network/routeTables"
+          },
+          {
+            "id": "/subscriptions/c52ed50-7f0e-41cd-842c-7d48d87f8f4f/resourceGroups/fglb-RG/providers/Microsoft.Network/routeTables/fglb-RT-PROTECTED-B",
+            "resourceGroup": "fglb-RG",
+            "resourceName": "fglb-RT-PROTECTED-B",
+            "resourceType": "Microsoft.Network/routeTables"
+          }
+        ],
+        "id": "/subscriptions/c52ed50-7f0e-41cd-842c-7d48d87f8f4f/resourceGroups/fglb-RG/providers/Microsoft.Network/virtualNetworks/fglb-VNET",
+        "resourceGroup": "fglb-RG",
+        "resourceName": "fglb-VNET",
+        "resourceType": "Microsoft.Network/virtualNetworks"
+      },
+      {
+        "dependsOn": [
+          {
+            "id": "/subscriptions/c52ed50-7f0e-41cd-842c-7d48d87f8f4f/resourceGroups/fglb-RG/providers/Microsoft.Network/virtualNetworks/fglb-VNET",
+            "resourceGroup": "fglb-RG",
+            "resourceName": "fglb-VNET",
+            "resourceType": "Microsoft.Network/virtualNetworks"
+          },
+          {
+            "id": "/subscriptions/c52ed50-7f0e-41cd-842c-7d48d87f8f4f/resourceGroups/fglb-RG/providers/Microsoft.Network/virtualNetworks/fglb-VNET-SPOKE1",
+            "resourceGroup": "fglb-RG",
+            "resourceName": "fglb-VNET-SPOKE1",
+            "resourceType": "Microsoft.Network/virtualNetworks"
+          }
+        ],
+        "id": "/subscriptions/c52ed50-7f0e-41cd-842c-7d48d87f8f4f/resourceGroups/fglb-RG/providers/Microsoft.Network/virtualNetworks/fglb-VNET/virtualNetworkPeerings/fglb-VNETTofglb-VNET-SPOKE1",
+        "resourceGroup": "fglb-RG",
+        "resourceName": "fglb-VNET/fglb-VNETTofglb-VNET-SPOKE1",
+        "resourceType": "Microsoft.Network/virtualNetworks/virtualNetworkPeerings"
+      },
+      {
+        "dependsOn": [
+          {
+            "id": "/subscriptions/c52ed50-7f0e-41cd-842c-7d48d87f8f4f/resourceGroups/fglb-RG/providers/Microsoft.Network/virtualNetworks/fglb-VNET",
+            "resourceGroup": "fglb-RG",
+            "resourceName": "fglb-VNET",
+            "resourceType": "Microsoft.Network/virtualNetworks"
+          },
+          {
+            "id": "/subscriptions/c52ed50-7f0e-41cd-842c-7d48d87f8f4f/resourceGroups/fglb-RG/providers/Microsoft.Network/virtualNetworks/fglb-VNET-SPOKE2",
+            "resourceGroup": "fglb-RG",
+            "resourceName": "fglb-VNET-SPOKE2",
+            "resourceType": "Microsoft.Network/virtualNetworks"
+          }
+        ],
+        "id": "/subscriptions/c52ed50-7f0e-41cd-842c-7d48d87f8f4f/resourceGroups/fglb-RG/providers/Microsoft.Network/virtualNetworks/fglb-VNET/virtualNetworkPeerings/fglb-VNETTofglb-VNET-SPOKE2",
+        "resourceGroup": "fglb-RG",
+        "resourceName": "fglb-VNET/fglb-VNETTofglb-VNET-SPOKE2",
+        "resourceType": "Microsoft.Network/virtualNetworks/virtualNetworkPeerings"
+      },
+      {
+        "dependsOn": [
+          {
+            "id": "/subscriptions/c52ed50-7f0e-41cd-842c-7d48d87f8f4f/resourceGroups/fglb-RG/providers/Microsoft.Network/routeTables/fglb-RT-SPOKE-1",
+            "resourceGroup": "fglb-RG",
+            "resourceName": "fglb-RT-SPOKE-1",
+            "resourceType": "Microsoft.Network/routeTables"
+          }
+        ],
+        "id": "/subscriptions/c52ed50-7f0e-41cd-842c-7d48d87f8f4f/resourceGroups/fglb-RG/providers/Microsoft.Network/virtualNetworks/fglb-VNET-SPOKE1",
+        "resourceGroup": "fglb-RG",
+        "resourceName": "fglb-VNET-SPOKE1",
+        "resourceType": "Microsoft.Network/virtualNetworks"
+      },
+      {
+        "dependsOn": [
+          {
+            "id": "/subscriptions/c52ed50-7f0e-41cd-842c-7d48d87f8f4f/resourceGroups/fglb-RG/providers/Microsoft.Network/virtualNetworks/fglb-VNET",
+            "resourceGroup": "fglb-RG",
+            "resourceName": "fglb-VNET",
+            "resourceType": "Microsoft.Network/virtualNetworks"
+          },
+          {
+            "id": "/subscriptions/c52ed50-7f0e-41cd-842c-7d48d87f8f4f/resourceGroups/fglb-RG/providers/Microsoft.Network/virtualNetworks/fglb-VNET-SPOKE1",
+            "resourceGroup": "fglb-RG",
+            "resourceName": "fglb-VNET-SPOKE1",
+            "resourceType": "Microsoft.Network/virtualNetworks"
+          }
+        ],
+        "id": "/subscriptions/c52ed50-7f0e-41cd-842c-7d48d87f8f4f/resourceGroups/fglb-RG/providers/Microsoft.Network/virtualNetworks/fglb-VNET-SPOKE1/virtualNetworkPeerings/fglb-VNET-SPOKE1Tofglb-VNET",
+        "resourceGroup": "fglb-RG",
+        "resourceName": "fglb-VNET-SPOKE1/fglb-VNET-SPOKE1Tofglb-VNET",
+        "resourceType": "Microsoft.Network/virtualNetworks/virtualNetworkPeerings"
+      },
+      {
+        "dependsOn": [
+          {
+            "id": "/subscriptions/c52ed50-7f0e-41cd-842c-7d48d87f8f4f/resourceGroups/fglb-RG/providers/Microsoft.Network/routeTables/fglb-RT-SPOKE-2",
+            "resourceGroup": "fglb-RG",
+            "resourceName": "fglb-RT-SPOKE-2",
+            "resourceType": "Microsoft.Network/routeTables"
+          }
+        ],
+        "id": "/subscriptions/c52ed50-7f0e-41cd-842c-7d48d87f8f4f/resourceGroups/fglb-RG/providers/Microsoft.Network/virtualNetworks/fglb-VNET-SPOKE2",
+        "resourceGroup": "fglb-RG",
+        "resourceName": "fglb-VNET-SPOKE2",
+        "resourceType": "Microsoft.Network/virtualNetworks"
+      },
+      {
+        "dependsOn": [
+          {
+            "id": "/subscriptions/c52ed50-7f0e-41cd-842c-7d48d87f8f4f/resourceGroups/fglb-RG/providers/Microsoft.Network/virtualNetworks/fglb-VNET",
+            "resourceGroup": "fglb-RG",
+            "resourceName": "fglb-VNET",
+            "resourceType": "Microsoft.Network/virtualNetworks"
+          },
+          {
+            "id": "/subscriptions/c52ed50-7f0e-41cd-842c-7d48d87f8f4f/resourceGroups/fglb-RG/providers/Microsoft.Network/virtualNetworks/fglb-VNET-SPOKE2",
+            "resourceGroup": "fglb-RG",
+            "resourceName": "fglb-VNET-SPOKE2",
+            "resourceType": "Microsoft.Network/virtualNetworks"
+          }
+        ],
+        "id": "/subscriptions/c52ed50-7f0e-41cd-842c-7d48d87f8f4f/resourceGroups/fglb-RG/providers/Microsoft.Network/virtualNetworks/fglb-VNET-SPOKE2/virtualNetworkPeerings/fglb-VNET-SPOKE2Tofglb-VNET",
+        "resourceGroup": "fglb-RG",
+        "resourceName": "fglb-VNET-SPOKE2/fglb-VNET-SPOKE2Tofglb-VNET",
+        "resourceType": "Microsoft.Network/virtualNetworks/virtualNetworkPeerings"
+      },
+      {
+        "dependsOn": [
+          {
+            "id": "/subscriptions/c52ed50-7f0e-41cd-842c-7d48d87f8f4f/resourceGroups/fglb-RG/providers/Microsoft.Network/virtualNetworks/fglb-VNET",
+            "resourceGroup": "fglb-RG",
+            "resourceName": "fglb-VNET",
+            "resourceType": "Microsoft.Network/virtualNetworks"
+          }
+        ],
+        "id": "/subscriptions/c52ed50-7f0e-41cd-842c-7d48d87f8f4f/resourceGroups/fglb-RG/providers/Microsoft.Network/loadBalancers/fglb-InternalLoadBalancer",
+        "resourceGroup": "fglb-RG",
+        "resourceName": "fglb-InternalLoadBalancer",
+        "resourceType": "Microsoft.Network/loadBalancers"
+      },
+      {
+        "dependsOn": [
+          {
+            "id": "/subscriptions/c52ed50-7f0e-41cd-842c-7d48d87f8f4f/resourceGroups/fglb-RG/providers/Microsoft.Network/publicIPAddresses/FGTAPClusterPublicIP",
+            "resourceGroup": "fglb-RG",
+            "resourceName": "FGTAPClusterPublicIP",
+            "resourceType": "Microsoft.Network/publicIPAddresses"
+          }
+        ],
+        "id": "/subscriptions/c52ed50-7f0e-41cd-842c-7d48d87f8f4f/resourceGroups/fglb-RG/providers/Microsoft.Network/loadBalancers/fglb-ExternalLoadBalancer",
+        "resourceGroup": "fglb-RG",
+        "resourceName": "fglb-ExternalLoadBalancer",
+        "resourceType": "Microsoft.Network/loadBalancers"
+      },
+      {
+        "dependsOn": [
+          {
+            "id": "/subscriptions/c52ed50-7f0e-41cd-842c-7d48d87f8f4f/resourceGroups/fglb-RG/providers/Microsoft.Network/virtualNetworks/fglb-VNET",
+            "resourceGroup": "fglb-RG",
+            "resourceName": "fglb-VNET",
+            "resourceType": "Microsoft.Network/virtualNetworks"
+          },
+          {
+            "id": "/subscriptions/c52ed50-7f0e-41cd-842c-7d48d87f8f4f/resourceGroups/fglb-RG/providers/Microsoft.Network/loadBalancers/fglb-ExternalLoadBalancer",
+            "resourceGroup": "fglb-RG",
+            "resourceName": "fglb-ExternalLoadBalancer",
+            "resourceType": "Microsoft.Network/loadBalancers"
+          },
+          {
+            "id": "/subscriptions/c52ed50-7f0e-41cd-842c-7d48d87f8f4f/resourceGroups/fglb-RG/providers/Microsoft.Network/networkSecurityGroups/fglb-pomrcyd33f3mw-NSG",
+            "resourceGroup": "fglb-RG",
+            "resourceName": "fglb-pomrcyd33f3mw-NSG",
+            "resourceType": "Microsoft.Network/networkSecurityGroups"
+          }
+        ],
+        "id": "/subscriptions/c52ed50-7f0e-41cd-842c-7d48d87f8f4f/resourceGroups/fglb-RG/providers/Microsoft.Network/networkInterfaces/fglb-FGT-A-Nic1",
+        "resourceGroup": "fglb-RG",
+        "resourceName": "fglb-FGT-A-Nic1",
+        "resourceType": "Microsoft.Network/networkInterfaces"
+      },
+      {
+        "dependsOn": [
+          {
+            "id": "/subscriptions/c52ed50-7f0e-41cd-842c-7d48d87f8f4f/resourceGroups/fglb-RG/providers/Microsoft.Network/virtualNetworks/fglb-VNET",
+            "resourceGroup": "fglb-RG",
+            "resourceName": "fglb-VNET",
+            "resourceType": "Microsoft.Network/virtualNetworks"
+          },
+          {
+            "id": "/subscriptions/c52ed50-7f0e-41cd-842c-7d48d87f8f4f/resourceGroups/fglb-RG/providers/Microsoft.Network/loadBalancers/fglb-ExternalLoadBalancer",
+            "resourceGroup": "fglb-RG",
+            "resourceName": "fglb-ExternalLoadBalancer",
+            "resourceType": "Microsoft.Network/loadBalancers"
+          },
+          {
+            "id": "/subscriptions/c52ed50-7f0e-41cd-842c-7d48d87f8f4f/resourceGroups/fglb-RG/providers/Microsoft.Network/networkSecurityGroups/fglb-pomrcyd33f3mw-NSG",
+            "resourceGroup": "fglb-RG",
+            "resourceName": "fglb-pomrcyd33f3mw-NSG",
+            "resourceType": "Microsoft.Network/networkSecurityGroups"
+          }
+        ],
+        "id": "/subscriptions/c52ed50-7f0e-41cd-842c-7d48d87f8f4f/resourceGroups/fglb-RG/providers/Microsoft.Network/networkInterfaces/fglb-FGT-B-Nic1",
+        "resourceGroup": "fglb-RG",
+        "resourceName": "fglb-FGT-B-Nic1",
+        "resourceType": "Microsoft.Network/networkInterfaces"
+      },
+      {
+        "dependsOn": [
+          {
+            "id": "/subscriptions/c52ed50-7f0e-41cd-842c-7d48d87f8f4f/resourceGroups/fglb-RG/providers/Microsoft.Network/virtualNetworks/fglb-VNET",
+            "resourceGroup": "fglb-RG",
+            "resourceName": "fglb-VNET",
+            "resourceType": "Microsoft.Network/virtualNetworks"
+          },
+          {
+            "id": "/subscriptions/c52ed50-7f0e-41cd-842c-7d48d87f8f4f/resourceGroups/fglb-RG/providers/Microsoft.Network/loadBalancers/fglb-InternalLoadBalancer",
+            "resourceGroup": "fglb-RG",
+            "resourceName": "fglb-InternalLoadBalancer",
+            "resourceType": "Microsoft.Network/loadBalancers"
+          }
+        ],
+        "id": "/subscriptions/c52ed50-7f0e-41cd-842c-7d48d87f8f4f/resourceGroups/fglb-RG/providers/Microsoft.Network/networkInterfaces/fglb-FGT-A-Nic2",
+        "resourceGroup": "fglb-RG",
+        "resourceName": "fglb-FGT-A-Nic2",
+        "resourceType": "Microsoft.Network/networkInterfaces"
+      },
+      {
+        "dependsOn": [
+          {
+            "id": "/subscriptions/c52ed50-7f0e-41cd-842c-7d48d87f8f4f/resourceGroups/fglb-RG/providers/Microsoft.Network/virtualNetworks/fglb-VNET",
+            "resourceGroup": "fglb-RG",
+            "resourceName": "fglb-VNET",
+            "resourceType": "Microsoft.Network/virtualNetworks"
+          },
+          {
+            "id": "/subscriptions/c52ed50-7f0e-41cd-842c-7d48d87f8f4f/resourceGroups/fglb-RG/providers/Microsoft.Network/loadBalancers/fglb-InternalLoadBalancer",
+            "resourceGroup": "fglb-RG",
+            "resourceName": "fglb-InternalLoadBalancer",
+            "resourceType": "Microsoft.Network/loadBalancers"
+          }
+        ],
+        "id": "/subscriptions/c52ed50-7f0e-41cd-842c-7d48d87f8f4f/resourceGroups/fglb-RG/providers/Microsoft.Network/networkInterfaces/fglb-FGT-B-Nic2",
+        "resourceGroup": "fglb-RG",
+        "resourceName": "fglb-FGT-B-Nic2",
+        "resourceType": "Microsoft.Network/networkInterfaces"
+      },
+      {
+        "dependsOn": [
+          {
+            "id": "/subscriptions/c52ed50-7f0e-41cd-842c-7d48d87f8f4f/resourceGroups/fglb-RG/providers/Microsoft.Network/virtualNetworks/fglb-VNET",
+            "resourceGroup": "fglb-RG",
+            "resourceName": "fglb-VNET",
+            "resourceType": "Microsoft.Network/virtualNetworks"
+          }
+        ],
+        "id": "/subscriptions/c52ed50-7f0e-41cd-842c-7d48d87f8f4f/resourceGroups/fglb-RG/providers/Microsoft.Network/networkInterfaces/fglb-FGT-A-Nic3",
+        "resourceGroup": "fglb-RG",
+        "resourceName": "fglb-FGT-A-Nic3",
+        "resourceType": "Microsoft.Network/networkInterfaces"
+      },
+      {
+        "dependsOn": [
+          {
+            "id": "/subscriptions/c52ed50-7f0e-41cd-842c-7d48d87f8f4f/resourceGroups/fglb-RG/providers/Microsoft.Network/virtualNetworks/fglb-VNET",
+            "resourceGroup": "fglb-RG",
+            "resourceName": "fglb-VNET",
+            "resourceType": "Microsoft.Network/virtualNetworks"
+          }
+        ],
+        "id": "/subscriptions/c52ed50-7f0e-41cd-842c-7d48d87f8f4f/resourceGroups/fglb-RG/providers/Microsoft.Network/networkInterfaces/fglb-FGT-B-Nic3",
+        "resourceGroup": "fglb-RG",
+        "resourceName": "fglb-FGT-B-Nic3",
+        "resourceType": "Microsoft.Network/networkInterfaces"
+      },
+      {
+        "dependsOn": [
+          {
+            "id": "/subscriptions/c52ed50-7f0e-41cd-842c-7d48d87f8f4f/resourceGroups/fglb-RG/providers/Microsoft.Network/virtualNetworks/fglb-VNET",
+            "resourceGroup": "fglb-RG",
+            "resourceName": "fglb-VNET",
+            "resourceType": "Microsoft.Network/virtualNetworks"
+          }
+        ],
+        "id": "/subscriptions/c52ed50-7f0e-41cd-842c-7d48d87f8f4f/resourceGroups/fglb-RG/providers/Microsoft.Network/networkInterfaces/fglb-FGT-A-Nic4",
+        "resourceGroup": "fglb-RG",
+        "resourceName": "fglb-FGT-A-Nic4",
+        "resourceType": "Microsoft.Network/networkInterfaces"
+      },
+      {
+        "dependsOn": [
+          {
+            "id": "/subscriptions/c52ed50-7f0e-41cd-842c-7d48d87f8f4f/resourceGroups/fglb-RG/providers/Microsoft.Network/virtualNetworks/fglb-VNET",
+            "resourceGroup": "fglb-RG",
+            "resourceName": "fglb-VNET",
+            "resourceType": "Microsoft.Network/virtualNetworks"
+          }
+        ],
+        "id": "/subscriptions/c52ed50-7f0e-41cd-842c-7d48d87f8f4f/resourceGroups/fglb-RG/providers/Microsoft.Network/networkInterfaces/fglb-FGT-B-Nic4",
+        "resourceGroup": "fglb-RG",
+        "resourceName": "fglb-FGT-B-Nic4",
+        "resourceType": "Microsoft.Network/networkInterfaces"
+      },
+      {
+        "dependsOn": [
+          {
+            "id": "/subscriptions/c52ed50-7f0e-41cd-842c-7d48d87f8f4f/resourceGroups/fglb-RG/providers/Microsoft.Network/networkInterfaces/fglb-FGT-A-Nic1",
+            "resourceGroup": "fglb-RG",
+            "resourceName": "fglb-FGT-A-Nic1",
+            "resourceType": "Microsoft.Network/networkInterfaces"
+          },
+          {
+            "id": "/subscriptions/c52ed50-7f0e-41cd-842c-7d48d87f8f4f/resourceGroups/fglb-RG/providers/Microsoft.Network/networkInterfaces/fglb-FGT-A-Nic2",
+            "resourceGroup": "fglb-RG",
+            "resourceName": "fglb-FGT-A-Nic2",
+            "resourceType": "Microsoft.Network/networkInterfaces"
+          },
+          {
+            "id": "/subscriptions/c52ed50-7f0e-41cd-842c-7d48d87f8f4f/resourceGroups/fglb-RG/providers/Microsoft.Network/networkInterfaces/fglb-FGT-A-Nic3",
+            "resourceGroup": "fglb-RG",
+            "resourceName": "fglb-FGT-A-Nic3",
+            "resourceType": "Microsoft.Network/networkInterfaces"
+          },
+          {
+            "id": "/subscriptions/c52ed50-7f0e-41cd-842c-7d48d87f8f4f/resourceGroups/fglb-RG/providers/Microsoft.Network/networkInterfaces/fglb-FGT-A-Nic4",
+            "resourceGroup": "fglb-RG",
+            "resourceName": "fglb-FGT-A-Nic4",
+            "resourceType": "Microsoft.Network/networkInterfaces"
+          }
+        ],
+        "id": "/subscriptions/c52ed50-7f0e-41cd-842c-7d48d87f8f4f/resourceGroups/fglb-RG/providers/Microsoft.Compute/virtualMachines/fglb-FGT-A",
+        "resourceGroup": "fglb-RG",
+        "resourceName": "fglb-FGT-A",
+        "resourceType": "Microsoft.Compute/virtualMachines"
+      },
+      {
+        "dependsOn": [
+          {
+            "id": "/subscriptions/c52ed50-7f0e-41cd-842c-7d48d87f8f4f/resourceGroups/fglb-RG/providers/Microsoft.Network/networkInterfaces/fglb-FGT-B-Nic1",
+            "resourceGroup": "fglb-RG",
+            "resourceName": "fglb-FGT-B-Nic1",
+            "resourceType": "Microsoft.Network/networkInterfaces"
+          },
+          {
+            "id": "/subscriptions/c52ed50-7f0e-41cd-842c-7d48d87f8f4f/resourceGroups/fglb-RG/providers/Microsoft.Network/networkInterfaces/fglb-FGT-B-Nic2",
+            "resourceGroup": "fglb-RG",
+            "resourceName": "fglb-FGT-B-Nic2",
+            "resourceType": "Microsoft.Network/networkInterfaces"
+          },
+          {
+            "id": "/subscriptions/c52ed50-7f0e-41cd-842c-7d48d87f8f4f/resourceGroups/fglb-RG/providers/Microsoft.Network/networkInterfaces/fglb-FGT-B-Nic3",
+            "resourceGroup": "fglb-RG",
+            "resourceName": "fglb-FGT-B-Nic3",
+            "resourceType": "Microsoft.Network/networkInterfaces"
+          },
+          {
+            "id": "/subscriptions/c52ed50-7f0e-41cd-842c-7d48d87f8f4f/resourceGroups/fglb-RG/providers/Microsoft.Network/networkInterfaces/fglb-FGT-B-Nic4",
+            "resourceGroup": "fglb-RG",
+            "resourceName": "fglb-FGT-B-Nic4",
+            "resourceType": "Microsoft.Network/networkInterfaces"
+          }
+        ],
+        "id": "/subscriptions/c52ed50-7f0e-41cd-842c-7d48d87f8f4f/resourceGroups/fglb-RG/providers/Microsoft.Compute/virtualMachines/fglb-FGT-B",
+        "resourceGroup": "fglb-RG",
+        "resourceName": "fglb-FGT-B",
+        "resourceType": "Microsoft.Compute/virtualMachines"
+      }
+    ],
+    "duration": "PT5M8.7247513S",
+    "mode": "Incremental",
+    "onErrorDeployment": null,
+    "outputResources": [
+      {
+        "id": "/subscriptions/c52ed50-7f0e-41cd-842c-7d48d87f8f4f/resourceGroups/fglb-RG/providers/Microsoft.Compute/availabilitySets/fglb-AvailabilitySet",
+        "resourceGroup": "fglb-RG"
+      },
+      {
+        "id": "/subscriptions/c52ed50-7f0e-41cd-842c-7d48d87f8f4f/resourceGroups/fglb-RG/providers/Microsoft.Compute/virtualMachines/fglb-FGT-A",
+        "resourceGroup": "fglb-RG"
+      },
+      {
+        "id": "/subscriptions/c52ed50-7f0e-41cd-842c-7d48d87f8f4f/resourceGroups/fglb-RG/providers/Microsoft.Compute/virtualMachines/fglb-FGT-B",
+        "resourceGroup": "fglb-RG"
+      },
+      {
+        "id": "/subscriptions/c52ed50-7f0e-41cd-842c-7d48d87f8f4f/resourceGroups/fglb-RG/providers/Microsoft.Network/loadBalancers/fglb-ExternalLoadBalancer",
+        "resourceGroup": "fglb-RG"
+      },
+      {
+        "id": "/subscriptions/c52ed50-7f0e-41cd-842c-7d48d87f8f4f/resourceGroups/fglb-RG/providers/Microsoft.Network/loadBalancers/fglb-InternalLoadBalancer",
+        "resourceGroup": "fglb-RG"
+      },
+      {
+        "id": "/subscriptions/c52ed50-7f0e-41cd-842c-7d48d87f8f4f/resourceGroups/fglb-RG/providers/Microsoft.Network/networkInterfaces/fglb-FGT-A-Nic1",
+        "resourceGroup": "fglb-RG"
+      },
+      {
+        "id": "/subscriptions/c52ed50-7f0e-41cd-842c-7d48d87f8f4f/resourceGroups/fglb-RG/providers/Microsoft.Network/networkInterfaces/fglb-FGT-A-Nic2",
+        "resourceGroup": "fglb-RG"
+      },
+      {
+        "id": "/subscriptions/c52ed50-7f0e-41cd-842c-7d48d87f8f4f/resourceGroups/fglb-RG/providers/Microsoft.Network/networkInterfaces/fglb-FGT-A-Nic3",
+        "resourceGroup": "fglb-RG"
+      },
+      {
+        "id": "/subscriptions/c52ed50-7f0e-41cd-842c-7d48d87f8f4f/resourceGroups/fglb-RG/providers/Microsoft.Network/networkInterfaces/fglb-FGT-A-Nic4",
+        "resourceGroup": "fglb-RG"
+      },
+      {
+        "id": "/subscriptions/c52ed50-7f0e-41cd-842c-7d48d87f8f4f/resourceGroups/fglb-RG/providers/Microsoft.Network/networkInterfaces/fglb-FGT-B-Nic1",
+        "resourceGroup": "fglb-RG"
+      },
+      {
+        "id": "/subscriptions/c52ed50-7f0e-41cd-842c-7d48d87f8f4f/resourceGroups/fglb-RG/providers/Microsoft.Network/networkInterfaces/fglb-FGT-B-Nic2",
+        "resourceGroup": "fglb-RG"
+      },
+      {
+        "id": "/subscriptions/c52ed50-7f0e-41cd-842c-7d48d87f8f4f/resourceGroups/fglb-RG/providers/Microsoft.Network/networkInterfaces/fglb-FGT-B-Nic3",
+        "resourceGroup": "fglb-RG"
+      },
+      {
+        "id": "/subscriptions/c52ed50-7f0e-41cd-842c-7d48d87f8f4f/resourceGroups/fglb-RG/providers/Microsoft.Network/networkInterfaces/fglb-FGT-B-Nic4",
+        "resourceGroup": "fglb-RG"
+      },
+      {
+        "id": "/subscriptions/c52ed50-7f0e-41cd-842c-7d48d87f8f4f/resourceGroups/fglb-RG/providers/Microsoft.Network/networkSecurityGroups/fglb-pomrcyd33f3mw-NSG",
+        "resourceGroup": "fglb-RG"
+      },
+      {
+        "id": "/subscriptions/c52ed50-7f0e-41cd-842c-7d48d87f8f4f/resourceGroups/fglb-RG/providers/Microsoft.Network/publicIPAddresses/FGTAMgmtPublicIP",
+        "resourceGroup": "fglb-RG"
+      },
+      {
+        "id": "/subscriptions/c52ed50-7f0e-41cd-842c-7d48d87f8f4f/resourceGroups/fglb-RG/providers/Microsoft.Network/publicIPAddresses/FGTAPClusterPublicIP",
+        "resourceGroup": "fglb-RG"
+      },
+      {
+        "id": "/subscriptions/c52ed50-7f0e-41cd-842c-7d48d87f8f4f/resourceGroups/fglb-RG/providers/Microsoft.Network/publicIPAddresses/FGTBMgmtPublicIP",
+        "resourceGroup": "fglb-RG"
+      },
+      {
+        "id": "/subscriptions/c52ed50-7f0e-41cd-842c-7d48d87f8f4f/resourceGroups/fglb-RG/providers/Microsoft.Network/routeTables/fglb-RT-PROTECTED-A",
+        "resourceGroup": "fglb-RG"
+      },
+      {
+        "id": "/subscriptions/c52ed50-7f0e-41cd-842c-7d48d87f8f4f/resourceGroups/fglb-RG/providers/Microsoft.Network/routeTables/fglb-RT-PROTECTED-B",
+        "resourceGroup": "fglb-RG"
+      },
+      {
+        "id": "/subscriptions/c52ed50-7f0e-41cd-842c-7d48d87f8f4f/resourceGroups/fglb-RG/providers/Microsoft.Network/routeTables/fglb-RT-SPOKE-1",
+        "resourceGroup": "fglb-RG"
+      },
+      {
+        "id": "/subscriptions/c52ed50-7f0e-41cd-842c-7d48d87f8f4f/resourceGroups/fglb-RG/providers/Microsoft.Network/routeTables/fglb-RT-SPOKE-2",
+        "resourceGroup": "fglb-RG"
+      },
+      {
+        "id": "/subscriptions/c52ed50-7f0e-41cd-842c-7d48d87f8f4f/resourceGroups/fglb-RG/providers/Microsoft.Network/virtualNetworks/fglb-VNET",
+        "resourceGroup": "fglb-RG"
+      },
+      {
+        "id": "/subscriptions/c52ed50-7f0e-41cd-842c-7d48d87f8f4f/resourceGroups/fglb-RG/providers/Microsoft.Network/virtualNetworks/fglb-VNET/virtualNetworkPeerings/fglb-VNETTofglb-VNET-SPOKE1",
+        "resourceGroup": "fglb-RG"
+      },
+      {
+        "id": "/subscriptions/c52ed50-7f0e-41cd-842c-7d48d87f8f4f/resourceGroups/fglb-RG/providers/Microsoft.Network/virtualNetworks/fglb-VNET/virtualNetworkPeerings/fglb-VNETTofglb-VNET-SPOKE2",
+        "resourceGroup": "fglb-RG"
+      },
+      {
+        "id": "/subscriptions/c52ed50-7f0e-41cd-842c-7d48d87f8f4f/resourceGroups/fglb-RG/providers/Microsoft.Network/virtualNetworks/fglb-VNET-SPOKE1",
+        "resourceGroup": "fglb-RG"
+      },
+      {
+        "id": "/subscriptions/c52ed50-7f0e-41cd-842c-7d48d87f8f4f/resourceGroups/fglb-RG/providers/Microsoft.Network/virtualNetworks/fglb-VNET-SPOKE1/virtualNetworkPeerings/fglb-VNET-SPOKE1Tofglb-VNET",
+        "resourceGroup": "fglb-RG"
+      },
+      {
+        "id": "/subscriptions/c52ed50-7f0e-41cd-842c-7d48d87f8f4f/resourceGroups/fglb-RG/providers/Microsoft.Network/virtualNetworks/fglb-VNET-SPOKE2",
+        "resourceGroup": "fglb-RG"
+      },
+      {
+        "id": "/subscriptions/c52ed50-7f0e-41cd-842c-7d48d87f8f4f/resourceGroups/fglb-RG/providers/Microsoft.Network/virtualNetworks/fglb-VNET-SPOKE2/virtualNetworkPeerings/fglb-VNET-SPOKE2Tofglb-VNET",
+        "resourceGroup": "fglb-RG"
+      }
+    ],
+    "outputs": null,
+    "parameters": {
+      "adminPassword": {
+        "type": "SecureString"
+      },
+      "adminUsername": {
+        "type": "String",
+        "value": "azureuser"
+      },
+      "fortiGateImageSKU": {
+        "type": "String",
+        "value": "fortinet_fg-vm"
+      },
+      "fortiGateImageVersion": {
+        "type": "String",
+        "value": "latest"
+      },
+      "fortiGateNamePrefix": {
+        "type": "String",
+        "value": "fglb"
+      },
+      "fortinetTags": {
+        "type": "Object",
+        "value": {
+          "provider": "6EB3B02F-50E5-4A3E-8CB8-2E129258317D"
+        }
+      },
+      "instanceType": {
+        "type": "String",
+        "value": "Standard_F4s"
+      },
+      "publicIP2Name": {
+        "type": "String",
+        "value": "FGTAMgmtPublicIP"
+      },
+      "publicIP2NewOrExisting": {
+        "type": "String",
+        "value": "new"
+      },
+      "publicIP2ResourceGroup": {
+        "type": "String",
+        "value": ""
+      },
+      "publicIP3Name": {
+        "type": "String",
+        "value": "FGTBMgmtPublicIP"
+      },
+      "publicIP3NewOrExisting": {
+        "type": "String",
+        "value": "new"
+      },
+      "publicIP3ResourceGroup": {
+        "type": "String",
+        "value": ""
+      },
+      "publicIPAddressType": {
+        "type": "String",
+        "value": "Static"
+      },
+      "publicIPName": {
+        "type": "String",
+        "value": "FGTAPClusterPublicIP"
+      },
+      "publicIPNewOrExisting": {
+        "type": "String",
+        "value": "new"
+      },
+      "publicIPResourceGroup": {
+        "type": "String",
+        "value": ""
+      },
+      "subnet1Name": {
+        "type": "String",
+        "value": "ExternalSubnet"
+      },
+      "subnet1Prefix": {
+        "type": "String",
+        "value": "172.16.136.0/26"
+      },
+      "subnet1Spoke1Name": {
+        "type": "String",
+        "value": "SPOKE1Subnet"
+      },
+      "subnet1Spoke1Prefix": {
+        "type": "String",
+        "value": "172.16.140.0/26"
+      },
+      "subnet1Spoke2Name": {
+        "type": "String",
+        "value": "SPOKE2Subnet"
+      },
+      "subnet1Spoke2Prefix": {
+        "type": "String",
+        "value": "172.16.142.0/26"
+      },
+      "subnet2Name": {
+        "type": "String",
+        "value": "InternalSubnet"
+      },
+      "subnet2Prefix": {
+        "type": "String",
+        "value": "172.16.136.64/26"
+      },
+      "subnet3Name": {
+        "type": "String",
+        "value": "HASyncSubnet"
+      },
+      "subnet3Prefix": {
+        "type": "String",
+        "value": "172.16.136.128/26"
+      },
+      "subnet4Name": {
+        "type": "String",
+        "value": "ManagementSubnet"
+      },
+      "subnet4Prefix": {
+        "type": "String",
+        "value": "172.16.136.192/26"
+      },
+      "subnet5Name": {
+        "type": "String",
+        "value": "ProtectedASubnet"
+      },
+      "subnet5Prefix": {
+        "type": "String",
+        "value": "172.16.137.0/24"
+      },
+      "subnet6Name": {
+        "type": "String",
+        "value": "ProtectedBSubnet"
+      },
+      "subnet6Prefix": {
+        "type": "String",
+        "value": "172.16.138.0/24"
+      },
+      "vnetAddressPrefix": {
+        "type": "String",
+        "value": "172.16.136.0/22"
+      },
+      "vnetAddressPrefixSpoke1": {
+        "type": "String",
+        "value": "172.16.140.0/24"
+      },
+      "vnetAddressPrefixSpoke2": {
+        "type": "String",
+        "value": "172.16.142.0/24"
+      },
+      "vnetName": {
+        "type": "String",
+        "value": ""
+      },
+      "vnetNameSpoke1": {
+        "type": "String",
+        "value": ""
+      },
+      "vnetNameSpoke2": {
+        "type": "String",
+        "value": ""
+      },
+      "vnetNewOrExisting": {
+        "type": "String",
+        "value": "new"
+      },
+      "vnetNewOrExistingSpoke1": {
+        "type": "String",
+        "value": "new"
+      },
+      "vnetNewOrExistingSpoke2": {
+        "type": "String",
+        "value": "new"
+      },
+      "vnetResourceGroup": {
+        "type": "String",
+        "value": ""
+      },
+      "vnetResourceGroupSpoke1": {
+        "type": "String",
+        "value": ""
+      },
+      "vnetResourceGroupSpoke2": {
+        "type": "String",
+        "value": ""
+      }
+    },
+    "parametersLink": null,
+    "providers": [
+      {
+        "id": null,
+        "namespace": "Microsoft.Resources",
+        "registrationPolicy": null,
+        "registrationState": null,
+        "resourceTypes": [
+          {
+            "aliases": null,
+            "apiVersions": null,
+            "capabilities": null,
+            "locations": [
+              null
+            ],
+            "properties": null,
+            "resourceType": "deployments"
+          }
+        ]
+      },
+      {
+        "id": null,
+        "namespace": "Microsoft.Compute",
+        "registrationPolicy": null,
+        "registrationState": null,
+        "resourceTypes": [
+          {
+            "aliases": null,
+            "apiVersions": null,
+            "capabilities": null,
+            "locations": [
+              "westeurope"
+            ],
+            "properties": null,
+            "resourceType": "availabilitySets"
+          },
+          {
+            "aliases": null,
+            "apiVersions": null,
+            "capabilities": null,
+            "locations": [
+              "westeurope"
+            ],
+            "properties": null,
+            "resourceType": "virtualMachines"
+          }
+        ]
+      },
+      {
+        "id": null,
+        "namespace": "Microsoft.Network",
+        "registrationPolicy": null,
+        "registrationState": null,
+        "resourceTypes": [
+          {
+            "aliases": null,
+            "apiVersions": null,
+            "capabilities": null,
+            "locations": [
+              "westeurope"
+            ],
+            "properties": null,
+            "resourceType": "routeTables"
+          },
+          {
+            "aliases": null,
+            "apiVersions": null,
+            "capabilities": null,
+            "locations": [
+              "westeurope"
+            ],
+            "properties": null,
+            "resourceType": "virtualNetworks"
+          },
+          {
+            "aliases": null,
+            "apiVersions": null,
+            "capabilities": null,
+            "locations": [
+              "westeurope"
+            ],
+            "properties": null,
+            "resourceType": "virtualNetworks/virtualNetworkPeerings"
+          },
+          {
+            "aliases": null,
+            "apiVersions": null,
+            "capabilities": null,
+            "locations": [
+              "westeurope"
+            ],
+            "properties": null,
+            "resourceType": "loadBalancers"
+          },
+          {
+            "aliases": null,
+            "apiVersions": null,
+            "capabilities": null,
+            "locations": [
+              "westeurope"
+            ],
+            "properties": null,
+            "resourceType": "networkSecurityGroups"
+          },
+          {
+            "aliases": null,
+            "apiVersions": null,
+            "capabilities": null,
+            "locations": [
+              "westeurope"
+            ],
+            "properties": null,
+            "resourceType": "publicIPAddresses"
+          },
+          {
+            "aliases": null,
+            "apiVersions": null,
+            "capabilities": null,
+            "locations": [
+              "westeurope"
+            ],
+            "properties": null,
+            "resourceType": "networkInterfaces"
+          }
+        ]
+      }
+    ],
+    "provisioningState": "Succeeded",
+    "template": null,
+    "templateHash": "10416466476974203348",
+    "templateLink": null,
+    "timestamp": "2020-02-20T13:29:12.223186+00:00"
+  },
+  "resourceGroup": "fglb-RG",
+  "type": "Microsoft.Resources/deployments"
+}
+
+##############################################################################################################
+ Deployed FortiGate IP addesses
+
+fglb-FGT-A      None    172.16.136.5
+fglb-FGT-A      None    172.16.136.69
+fglb-FGT-A      None    172.16.136.133
+fglb-FGT-A      104.45.75.234   172.16.136.197
+fglb-FGT-B      None    172.16.136.6
+fglb-FGT-B      None    172.16.136.70
+fglb-FGT-B      None    172.16.136.134
+fglb-FGT-B      40.74.47.162    172.16.136.198
+
+ IP Public Azure Load Balancer:
+52.236.151.246  None
+
+##############################################################################################################
