@@ -86,11 +86,11 @@ fi
 # tshoot output
 echo $sp
 # gets id secret and tenant
-# appId
-export spId=$(echo $sp | awk '{print $7}')
-# password
-export spSecret=$(echo $sp | awk '{print $3}')
-# tenant
+# appId + remove trailing comma character
+export spId=$(echo $sp | awk '{print substr($3, 1, length($3)-1)}')
+# password + remove trailing comma character
+export spSecret=$(echo $sp | awk '{print substr($7, 1, length($7)-1)}')
+# tenant - no trailing characters
 export tnId=$(echo $sp | awk '{print $9}')
 
 echo $spId

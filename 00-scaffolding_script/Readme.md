@@ -29,7 +29,7 @@ export subscriptionId="xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
 export rg="my-resource-group"
 # Specify the location
 export location="West Europe"
-# Specify an existing service principal name
+# Specify an existing service principal name - Application (client) ID
 export spName="yyyyyyyy-yyyy-yyyy-yyyy-yyyyyyyyyyyy"
 ```
 * Execute the scripts one after another
@@ -39,14 +39,45 @@ export spName="yyyyyyyy-yyyy-yyyy-yyyy-yyyyyyyyyyyy"
 ./azure-terraform-init-step2.sh
 ```
 
-Terraform gets initiated with the backend configuration using the blob storage for tfstate file.
-<br>
-![](pictures/terraform-init.png)
-<br>
+The following secrets are generated and uploaded to vault after the script azure-terraform-init-step1.sh is executed.
+
+| Secret      | Description |
+| ----------- | ------------------------|
+| sa-key      | Storage Account key     |
+| sa-name     | Storage Account name    |
+| sc-name     | Blob container          |
+| sp-id       | Application (client) ID |  
+| sp-secret   | Service principal secret|
+| tn-id       | Tenant ID               | 
+
+
+The script executes several tasks and prints out the report after completition of each step
+
+- resource group created...
+- vault created...
+- storage account created...
+- storage container created...
+- creating new credentials for service principal
+- new credentials xxxxxx added...
+- secrets are saved in vault...
+
 All secrets are stored in the vault.<br>
 <br>
 ![](pictures/vault_secrets.png)
 <br>
+
+![](pictures/create_blob_and_secrets.png)
+<br>
+After each run of the script new credentials are added to service principal account. Regular cleanup of unused credentials is highly recommended.
+<br>
+![](pictures/new_client_secret.png)
+<br>
+
+Then in the next step terraform gets initiated with the backend configuration using the blob storage for tfstate file.
+<br>
+![](pictures/terraform-init.png)
+<br>
+
 Continue with defining Azure resources from your project in *.tf file to be deployed in the cloud infra.
 For example, add the following resource into main.tf and deploy the resource group on Azure.
 
