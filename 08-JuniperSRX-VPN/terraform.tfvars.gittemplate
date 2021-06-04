@@ -1,0 +1,5 @@
+# --Define the passphrase to unlock the SSH key to login to Juniper SRX firewall
+keypass = "xxxxxxx"
+
+# --Preshared key for IPsec VPN
+tunnel1_preshared_key = "xxxxxxxxx"

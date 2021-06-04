@@ -1,0 +1,40 @@
+admin@SRX210> show bgp summary
+Groups: 1 Peers: 1 Down peers: 0
+Table          Tot Paths  Act Paths Suppressed    History Damp State    Pending
+inet.0                 1          1          0          0          0          0
+inet6.0                0          0          0          0          0          0
+Peer                     AS      InPkt     OutPkt    OutQ   Flaps Last Up/Dwn State|#Active/Received/Accepted/Damped...
+172.16.0.10           64520         45         46       0       0        6:20 Establ
+  inet.0: 1/1/1/0
+  inet6.0: 0/0/0/0
+
+
+
+admin@SRX210> show security ike security-associations
+Index   State  Initiator cookie  Responder cookie  Mode           Remote Address
+3493167 UP     d123119001a8da11  08735585bf58e6e5  IKEv2          20.86.176.153
+
+
+
+admin@SRX210> show security ipsec security-associations
+  Total active tunnels: 1
+  ID    Algorithm       SPI      Life:sec/kb  Mon lsys Port  Gateway
+  <131073 ESP:aes-cbc-256/sha256 b721e837 1240/ unlim - root 500 20.86.176.153
+  >131073 ESP:aes-cbc-256/sha256 9d950eda 1240/ unlim - root 500 20.86.176.153
+
+
+
+admin@SRX210> show route receive-protocol bgp 172.16.0.10
+
+inet.0: 23 destinations, 23 routes (23 active, 0 holddown, 0 hidden)
+  Prefix                  Nexthop              MED     Lclpref    AS path
+* 172.16.0.0/16           172.16.0.10                             64520 I
+
+
+admin@SRX210> show route advertising-protocol bgp 172.16.0.10
+
+inet.0: 23 destinations, 23 routes (23 active, 0 holddown, 0 hidden)
+  Prefix                  Nexthop              MED     Lclpref    AS path
+* 172.31.1.0/24           Self                                    I
+
+
