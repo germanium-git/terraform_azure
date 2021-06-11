@@ -1,3 +1,6 @@
+variable "subscription_id" {}
+
+
 # --Define locals to derive names of the resources to be deployed
 locals {
   project_distinguisher = "vpn-s2s-bgp"
@@ -18,7 +21,7 @@ variable "username" {
 # -- Use rather public key authentication
 # variable "password" {}
 
-# --Define the ssh key to login to juniper firewall
+# --Define the path to the ssh key to login to juniper firewall
 variable "sshkeyfile" {
   default = "admin-srx210_privatekey_openssh"
 }
@@ -91,3 +94,33 @@ variable "sec_zone" {
 variable "bgp_export" {
   default = "BGP-export"
 }
+
+
+# --Network Security Group rules protecting the VM(s)
+variable "nsg_rules" {
+  description = "Network Security Group"
+  type = map(list(string))
+
+  # Structure is as follows name = [priority, direction, access, protocol, source_port_range, destination_port_range, source_address_prefix, destination_address_prefix]
+  default = {
+    #allowall = ["100", "Inbound", "Allow", "*", "*", "*", "*", "*",]
+    SSH   = ["110", "Inbound", "Allow", "Tcp", "*", "22", "172.31.1.0/24", "*",]
+    AllVNETIn = ["100", "Inbound", "Allow", "*", "*", "*", "172.16.0.0/12", "*",]
+    OutAll = ["100", "Outbound", "Allow", "*", "*", "*", "*", "*",]
+  }
+}
+
+# --The Account to access VM(s)
+variable "admin_username" {
+  default = "azureuser"
+}
+
+# The path of the destination file on the virtual machine where the key will be written.
+variable "keypath" {
+  default = "/home/azureuser/.ssh/authorized_keys"
+}
+
+variable "pubkey" {
+  default = "../key/id_rsa.pub"
+}
+

@@ -5,10 +5,16 @@
 01-two_vm_one_vnet/terraform.tfstate.backup
 01-two_vm_one_vnet/.terraform
 
+08-JuniperSRX-VPN/admin-srx210_privatekey_openssh
+
 */terraform.tfvars
+*/.terraform.lock.*
 */terraform.tfstate
 */terraform.tfstate.backup
+*/terraform.tfstate.*
+*/.terraform.tfstate.*
 */.terraform
+*/kubeconfig
 
 /FortiGate-HA-multiple-zones/configs/azureinit-a.conf
 /FortiGate-HA-multiple-zones/configs/azureinit-b.conf

@@ -3,3 +3,7 @@ keypass = "xxxxxxx"
 
 # --Preshared key for IPsec VPN
 tunnel1_preshared_key = "xxxxxxxxx"
+
+
+# --Subscription
+subscription_id = "xxxxxxxxxxxf"

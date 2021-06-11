@@ -8,6 +8,7 @@ resource "azurerm_resource_group" "rg" {
     }
 }
 
+
 # --Create vNet
 resource "azurerm_virtual_network" "vnet" {
   name                = "vnet1"
@@ -15,6 +16,7 @@ resource "azurerm_virtual_network" "vnet" {
   resource_group_name = azurerm_resource_group.rg.name
   address_space       = [var.vnetcidr]
 }
+
 
 # --Create subnet for workloads
 resource "azurerm_subnet" "subnet" {
@@ -24,6 +26,7 @@ resource "azurerm_subnet" "subnet" {
   address_prefixes     = [var.subnet1]
 }
 
+
 # --Create gateway subnet
 resource "azurerm_subnet" "GatewaySubnet" {
   name                 = "GatewaySubnet"
@@ -31,6 +34,7 @@ resource "azurerm_subnet" "GatewaySubnet" {
   virtual_network_name = azurerm_virtual_network.vnet.name
   address_prefixes     = [var.gwsubnet]
 }
+
 
 # --Create a public IP address for VPN Gateway
 resource "azurerm_public_ip" "gwpip" {
@@ -41,12 +45,14 @@ resource "azurerm_public_ip" "gwpip" {
   idle_timeout_in_minutes = 30
 }
 
+
 # --Show the IP address on display when created.
 output "vpn-public-ip" {
   value = azurerm_public_ip.gwpip.ip_address
 }
 
 
+# --Virtual Network Gateway
 resource "azurerm_virtual_network_gateway" "vng" {
   name                = "myvng1"
   location            = var.location
@@ -66,12 +72,15 @@ resource "azurerm_virtual_network_gateway" "vng" {
     subnet_id                     = azurerm_subnet.GatewaySubnet.id
   }
 
+  # Use the 10th address from gw subnet for peering
   bgp_settings {
     asn = var.azure_bgp_asn
     peering_address = cidrhost(var.gwsubnet, 10)
   }
 }
 
+
+# --Local network gateway
 resource "azurerm_local_network_gateway" "lngw1" {
     name                = "azlngw1"
     resource_group_name = azurerm_resource_group.rg.name
@@ -79,7 +88,7 @@ resource "azurerm_local_network_gateway" "lngw1" {
     gateway_address     = var.onprem_pubip
     address_space       = ["${var.tunnel_endpoint1}/32"]
 
-
+    # BGP neighbor on a remote site
     bgp_settings {
         asn = var.onprem_asn
         bgp_peering_address = var.tunnel_endpoint1
@@ -87,6 +96,7 @@ resource "azurerm_local_network_gateway" "lngw1" {
 }
 
 
+# --VPN connection
 resource "azurerm_virtual_network_gateway_connection" "vngc1" {
     name                        = "vngc1"
     location                    = var.location
@@ -100,3 +110,27 @@ resource "azurerm_virtual_network_gateway_connection" "vngc1" {
 
     enable_bgp = true
 }
+
+# --Network Security Group
+resource "azurerm_network_security_group" "nsg" {
+    name                = "nsg-${local.project_distinguisher}"
+    location            = var.location
+    resource_group_name = azurerm_resource_group.rg.name
+}
+
+# --Security rules for the Network Security Group
+resource "azurerm_network_security_rule" "sec_rule" {
+    for_each                    = var.nsg_rules
+    resource_group_name         = azurerm_resource_group.rg.name
+    network_security_group_name = azurerm_network_security_group.nsg.name
+    name                        = each.key
+    priority                    = each.value[0]
+    direction                   = each.value[1]
+    access                      = each.value[2]
+    protocol                    = each.value[3]
+    source_port_range           = each.value[4]
+    destination_port_range      = each.value[5]
+    source_address_prefix       = each.value[6]
+    destination_address_prefix  = each.value[7]
+}
+
